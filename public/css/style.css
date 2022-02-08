@@ -1,0 +1,51 @@
+body {
+
+    background-color: #999999;
+
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #FCFF4A;
+
+}
+
+header {
+    color: white;
+}
+li {
+    float: left;
+    list-style-type: none;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: rgba(0,0,0,0.8);
+    border-radius:5px;
+}
+
+img.logo {
+    display:block;
+    width : 75px;
+    height : 75px;
+
+}
+
+footer {
+    color: #F5F5F5;
+    background-color: black;
+    width: 100%;
+    text-align: center;
+    text-wrap: normal;
+    position: absolute;
+    bottom: 0;
+
+}
