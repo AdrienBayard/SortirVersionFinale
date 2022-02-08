@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/site')]
 class SiteController extends AbstractController
 {
-    #[Route('/', name: 'site_index', methods: ['GET'])]
+    #[Route('/', name: 'site_in dex', methods: ['GET'])]
     public function index(SiteRepository $siteRepository): Response
     {
         return $this->render('site/index.html.twig', [
