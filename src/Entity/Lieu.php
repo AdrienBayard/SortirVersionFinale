@@ -16,11 +16,14 @@ class Lieu
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Assert\NotBlank(message:"Indiquez le nom du lieu de la sortie.")]
     #[ORM\Column(type: 'string', length: 255)]
     private $nom;
 
+    #[Assert\NotBlank(message:"Indiquez le nom de la rue de la sortie.")]
     #[ORM\Column(type: 'string', length: 255)]
     private $rue;
+
 
     #[ORM\Column(type: 'float', nullable: true)]
     private $latitude;
@@ -134,4 +137,12 @@ class Lieu
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        /*return $this->longitude.''. $this->latitude;*/
+        return  $this->getNom();
+    }
+
+
 }
