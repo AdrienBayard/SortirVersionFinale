@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/user')]
 class UserController extends AbstractController
 {
+
+    const USERS_BASE_PATH = 'img/profil';
+    const USERS_UPLOAD_DIR = 'public/img/profil';
+
+
     #[Route('/', name: 'user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
@@ -22,6 +29,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_USER")]
     #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -47,6 +55,9 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            ImageField::new('photo')
+                ->setBasePath(self::USERS_BASE_PATH)
+                ->setUploadDir(self::USERS_UPLOAD_DIR),
         ]);
     }
 
@@ -65,6 +76,9 @@ class UserController extends AbstractController
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
+            ImageField::new('photo')
+                ->setBasePath(self::USERS_BASE_PATH)
+                ->setUploadDir(self::USERS_UPLOAD_DIR),
         ]);
     }
 
