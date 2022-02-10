@@ -65,10 +65,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->estInscrit = new ArrayCollection();
+
     }
-
-
-
 
 
 
@@ -275,22 +273,22 @@ public function removeEstInscrit(Sortie $estInscrit): self
         return $this->images;
     }
 
-    public function setImages(?Images $images): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($images === null && $this->images !== null) {
-            $this->images->setUsers(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($images !== null && $images->getUsers() !== $this) {
-            $images->setUsers($this);
-        }
-
-        $this->images = $images;
-
-        return $this;
+public function setImages(?Images $images): self
+{
+    // unset the owning side of the relation if necessary
+    if ($images === null && $this->images !== null) {
+        $this->images->setUsers(null);
     }
+
+    // set the owning side of the relation if necessary
+    if ($images !== null && $images->getUsers() !== $this) {
+        $images->setUsers($this);
+    }
+
+    $this->images = $images;
+
+    return $this;
+}
 
 
 }
