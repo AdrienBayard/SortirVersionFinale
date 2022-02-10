@@ -3,52 +3,49 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
-    <h1>Sortie</h1>
-
+    <br>
+    <h1>Sortie: {{ sortie.nom }}</h1>
+    <br>
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
+                <th>Date et heure de la sortie: </th>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i') : '' }}</td>
             </tr>
             <tr>
-                <th>Nom</th>
-                <td>{{ sortie.nom }}</td>
+                <th>Durée: </th>
+                <td>{{ sortie.duree }} minutes</td>
             </tr>
             <tr>
-                <th>DateHeureDebut</th>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Date limite d'inscription: </th>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y H:i') : '' }}</td>
             </tr>
             <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree }}</td>
-            </tr>
-            <tr>
-                <th>DateLimiteInscription</th>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>NbInscriptionMax</th>
+                <th>Nombre de places</th>
                 <td>{{ sortie.nbInscriptionMax }}</td>
             </tr>
             <tr>
-                <th>InfosSortie</th>
+                <th>Description et infos: </th>
                 <td>{{ sortie.infosSortie }}</td>
             </tr>
-            <tr>
-                <th>Etat</th>
-                <td>{{ sortie.etat }}</td>
-            </tr>
-            <tr>
+
+            {#  <tr>
                 <th>Organisateur</th>
                 <td>{{ sortie.organisateur ? 'Yes' : 'No' }}</td>
-            </tr>
+            </tr> #}
         </tbody>
     </table>
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+    <a href="{{ path('sortie_index') }}"><button class="btn">Retour à la liste des sorties</button></a>
+    <a href="{{ path('gestion_inscription', {'id': sortie.id}) }}">s'inscrire</a>
 
-    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
 
-    {{ include('sortie/_delete_form.html.twig') }}
+    <button type="submit" name="submitAction" value="inscrire" class="btn">S'inscrire</button>
+    <button type="remove" name="removeInscrire" value="desister"class="btn">Se désister</button>
+    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}"><button class="btn">Modifier la sortie</button></a>
+    <a href="{{ path('sortie_delete', {'id': sortie.id}) }}"><button class="btn">Annuler la sortie</button></a>
+    <br>
+    <br>
+    <div>@Adrien TODO: DELETE exemple auto-généré, à gérer plus tard @Adrien {{ include('sortie/_delete_form.html.twig') }}</div>
+
 {% endblock %}

@@ -52,17 +52,14 @@ class Sortie
     #[ORM\Column(type: 'boolean')]
     private $isPublished;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'estInscrit')]
-    private $contientInscrit;
-
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'estOrganisateur')]
-    private $estOrganisePar;
+    #[ORM\OneToMany(mappedBy: 'sortieUtilisateur', targetEntity: Inscrire::class)]
+    private $sortieInscrires;
 
 
     public function __construct()
     {
         $this->isPublished = true;
-        $this->contientInscrit = new ArrayCollection();
+        $this->sortieInscrires = new ArrayCollection();
     }
 
 
@@ -207,43 +204,35 @@ class Sortie
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Inscrire[]
      */
-    public function getContientInscrit(): Collection
+    public function getSortieInscrires(): Collection
     {
-        return $this->contientInscrit;
+        return $this->sortieInscrires;
     }
 
-    public function addContientInscrit(User $contientInscrit): self
+    public function addSortieInscrire(Inscrire $sortieInscrire): self
     {
-        if (!$this->contientInscrit->contains($contientInscrit)) {
-            $this->contientInscrit[] = $contientInscrit;
-            $contientInscrit->addEstInscrit($this);
+        if (!$this->sortieInscrires->contains($sortieInscrire)) {
+            $this->sortieInscrires[] = $sortieInscrire;
+            $sortieInscrire->setSortieUtilisateur($this);
         }
 
         return $this;
     }
 
-    public function removeContientInscrit(User $contientInscrit): self
+    public function removeSortieInscrire(Inscrire $sortieInscrire): self
     {
-        if ($this->contientInscrit->removeElement($contientInscrit)) {
-            $contientInscrit->removeEstInscrit($this);
+        if ($this->sortieInscrires->removeElement($sortieInscrire)) {
+            // set the owning side to null (unless already changed)
+            if ($sortieInscrire->getSortieUtilisateur() === $this) {
+                $sortieInscrire->setSortieUtilisateur(null);
+            }
         }
 
         return $this;
     }
 
-    public function getEstOrganisePar(): ?User
-    {
-        return $this->estOrganisePar;
-    }
-
-    public function setEstOrganisePar(?User $estOrganisePar): self
-    {
-        $this->estOrganisePar = $estOrganisePar;
-
-        return $this;
-    }
 
 
 }
