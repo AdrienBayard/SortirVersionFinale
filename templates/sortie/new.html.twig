@@ -1,11 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Sortie{% endblock %}
 
+{% block title %}Créer une Sortie{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/CreerCSS.css') }}">
+{% endblock %}
 {% block body %}
-    <h1>Create new Sortie</h1>
 
-    {{ include('sortie/_form.html.twig') }}
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+
+    <div>
+    <h1>Créer une sortie</h1>
+    </div>
+
+    <div class="container">
+    {{ form_start(form) }}
+
+    <div class="containerFormulaire">
+  {#  {{ include('sortie/_form.html.twig') }}#}
+    <div class="colonneGauche">
+        {{ form_row(form.nom) }}
+        {{ form_row(form.dateHeureDebut) }}
+        {{ form_row(form.dateLimiteInscription) }}
+        {{ form_row(form.nbInscriptionMax) }}
+        {{ form_row(form.duree) }}
+        {{ form_row(form.infosSortie) }}
+        {{ form_row(form.isPublished) }}
+    </div>
+
+
+    <div class="colonneDroite">
+        <label for="{{field_name(form.nom)}}"> Site organisateur : </label>
+        {{ app.user.site }}
+   <br><label for="ville">Ville : </label>
+        <input name="ville" id="ville" placeholder="Ville"><br>
+        <br><label for="lieu">Lieu : </label>
+        <input name="lieu" id="lieu" placeholder="lieu"><br>
+        <br><label for="rue">Rue : </label>
+        <input name="rue" id="rue" placeholder="rue"><br>
+
+        <label for="code">Code postal : </label>
+      <input name="cp" id="code" placeholder="Code postal">
+    <ul>
+        <li data-vicopo="#ville, #code" data-vicopo-click='{"#code": "code", "#ville": "ville"}'><strong data-vicopo-code-postal></strong><span data-vicopo-ville></span></li>
+    </ul>
+        <br><label for="latitude">Latitude : </label>
+        <input id="latitude" placeholder="latitude"><br>
+        <br><label for="longitude">Longitude : </label>
+        <input id="longitude" placeholder="longitude"><br>
+    </div>
+
+    </div>
+
+
+    <div class="btnAlignes">
+        <button class="btn">Enregistrer</button>
+        <button class="btnAnnuler"><a  href="{{ path('sortie_index') }}" >Annuler</a></button>
+    </div>
+
+{{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="../../public/js/vicopo-vanilla.min.js"></script>
 {% endblock %}

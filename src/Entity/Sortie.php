@@ -16,21 +16,30 @@ class Sortie
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Assert\NotBlank(message:"Donner un nom explicite à votre sortie.")]
     #[ORM\Column(type: 'string', length: 255)]
     private $nom;
 
+    #[Assert\GreaterThan (value: "today",message: "la sortie doit avoir lieu plus tard que maintenant!")]
+    #[Assert\NotBlank(message:"A quelle heure commence votre sortie?")]
     #[ORM\Column(type: 'datetime')]
     private $dateHeureDebut;
 
+    #[Assert\NotBlank(message:"Indiquez la durée de la sortie en minutes.")]
     #[ORM\Column(type: 'integer')]
     private $duree;
 
+    #[Assert\Expression("this.getdateLimiteInscription() < this.getDateHeureDebut()",
+        message:"La date d'inscription doit être antérieure à la date début.")]
+    #[Assert\NotBlank(message:"Indiquez la date limite pour s'incrire à votre sortie.")]
     #[ORM\Column(type: 'datetime')]
     private $dateLimiteInscription;
 
+    #[Assert\NotBlank(message:"Indiquez le nombre maximum de participants.")]
     #[ORM\Column(type: 'integer')]
     private $nbInscriptionMax;
 
+    #[Assert\Length(max:"1000", maxMessage: "Trop long, maximum 1000 caractères.")]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $infosSortie;
 
