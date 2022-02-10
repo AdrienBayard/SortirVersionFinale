@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
+use App\Entity\Lieu;
+use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Entity\User;
+use App\Entity\Ville;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,11 +31,34 @@ class SortieController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $sortie = new Sortie();
+        $lieu= new Lieu();
+        $ville= new Ville();
+        $site=new Site();
+        $etat=new Etat();
+
+        $sortie->setSite($this->getUser()->getSite());
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $sortie->setOrganisateur(1);
+            $lieuRecupere = $request->request->get("lieu", "Nantes");
+            $lieu->setNom($lieuRecupere);
+            $lieuRecupere = $request->request->get("rue", "");
+            $lieu->setRue($lieuRecupere);
+            $sortie->setLieu($lieu);
+            $lieu->setVille($ville);
+            $sortie->setSite($site);
+            $sortie->setEtat($etat);
+            $site->setNom("nantes");
+            $etat->setLibelle("");
+            $villeRecupere= $request->request->get("ville", "Nantes");
+            $ville->setNom($villeRecupere);
+            $entityManager-> persist($ville);
+            $entityManager->persist($lieu);
             $entityManager->persist($sortie);
+            $entityManager->persist($site);
+            $entityManager->persist($etat);
             $entityManager->flush();
 
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
