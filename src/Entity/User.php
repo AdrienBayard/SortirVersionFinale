@@ -56,17 +56,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private $site;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'contientInscrit')]
-    private $estInscrit;
-
-    #[ORM\OneToMany(mappedBy: 'estOrganisePar', targetEntity: Sortie::class)]
-    private $estOrganisateur;
+    #[ORM\OneToMany(mappedBy: 'utilisateurSortie', targetEntity: Inscrire::class)]
+    private $UserInscrires;
 
     public function __construct()
     {
-        $this->estInscrit = new ArrayCollection();
-        $this->estOrganisateur = new ArrayCollection();
+        $this->UserInscrires = new ArrayCollection();
     }
+
 
 
 
@@ -238,61 +235,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-
 /*    public function __toString(): string
     {
         return $this->id.''.$this->roles.''.$this->nom.''.$this->prenom.''.$this->password.''.$this->mail.''.$this->pseudo.''.$this->telephone.''.$this->actif.''.$this->photo.''.$this->premiereconnexion;
     }*/
 
 /**
- * @return Collection|Sortie[]
+ * @return Collection|Inscrire[]
  */
-public function getEstInscrit(): Collection
+public function getUserInscrires(): Collection
 {
-    return $this->estInscrit;
+    return $this->UserInscrires;
 }
 
-public function addEstInscrit(Sortie $estInscrit): self
+public function addUserInscrire(Inscrire $inscrire): self
 {
-    if (!$this->estInscrit->contains($estInscrit)) {
-        $this->estInscrit[] = $estInscrit;
+    if (!$this->UserInscrires->contains($inscrire)) {
+        $this->UserInscrires[] = $inscrire;
+        $inscrire->setUtilisateurSortie($this);
     }
 
     return $this;
 }
 
-public function removeEstInscrit(Sortie $estInscrit): self
+public function removeUserInscrire(Inscrire $inscrire): self
 {
-    $this->estInscrit->removeElement($estInscrit);
-
-    return $this;
-}
-
-/**
- * @return Collection|Sortie[]
- */
-public function getEstOrganisateur(): Collection
-{
-    return $this->estOrganisateur;
-}
-
-public function addEstOrganisateur(Sortie $estOrganisateur): self
-{
-    if (!$this->estOrganisateur->contains($estOrganisateur)) {
-        $this->estOrganisateur[] = $estOrganisateur;
-        $estOrganisateur->setEstOrganisePar($this);
-    }
-
-    return $this;
-}
-
-public function removeEstOrganisateur(Sortie $estOrganisateur): self
-{
-    if ($this->estOrganisateur->removeElement($estOrganisateur)) {
+    if ($this->UserInscrires->removeElement($inscrire)) {
         // set the owning side to null (unless already changed)
-        if ($estOrganisateur->getEstOrganisePar() === $this) {
-            $estOrganisateur->setEstOrganisePar(null);
+        if ($inscrire->getUtilisateurSortie() === $this) {
+            $inscrire->setUtilisateurSortie(null);
         }
     }
 
