@@ -56,11 +56,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private $site;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'contientInscrit')]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'aEteInscrit')]
     private $estInscrit;
-
-    #[ORM\OneToMany(mappedBy: 'estOrganisePar', targetEntity: Sortie::class)]
-    private $estOrganisateur;
 
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Images::class, cascade: ['persist', 'remove'])]
     private $images;
@@ -68,8 +65,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->estInscrit = new ArrayCollection();
-        $this->estOrganisateur = new ArrayCollection();
     }
+
+
+
 
 
 
@@ -271,58 +270,27 @@ public function removeEstInscrit(Sortie $estInscrit): self
 
     return $this;
 }
-
-/**
- * @return Collection|Sortie[]
- */
-public function getEstOrganisateur(): Collection
-{
-    return $this->estOrganisateur;
-}
-
-public function addEstOrganisateur(Sortie $estOrganisateur): self
-{
-    if (!$this->estOrganisateur->contains($estOrganisateur)) {
-        $this->estOrganisateur[] = $estOrganisateur;
-        $estOrganisateur->setEstOrganisePar($this);
+    public function getImages(): ?Images
+    {
+        return $this->images;
     }
 
-    return $this;
-}
-
-public function removeEstOrganisateur(Sortie $estOrganisateur): self
-{
-    if ($this->estOrganisateur->removeElement($estOrganisateur)) {
-        // set the owning side to null (unless already changed)
-        if ($estOrganisateur->getEstOrganisePar() === $this) {
-            $estOrganisateur->setEstOrganisePar(null);
+    public function setImages(?Images $images): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($images === null && $this->images !== null) {
+            $this->images->setUsers(null);
         }
+
+        // set the owning side of the relation if necessary
+        if ($images !== null && $images->getUsers() !== $this) {
+            $images->setUsers($this);
+        }
+
+        $this->images = $images;
+
+        return $this;
     }
-
-    return $this;
-}
-
-public function getImages(): ?Images
-{
-    return $this->images;
-}
-
-public function setImages(?Images $images): self
-{
-    // unset the owning side of the relation if necessary
-    if ($images === null && $this->images !== null) {
-        $this->images->setUsers(null);
-    }
-
-    // set the owning side of the relation if necessary
-    if ($images !== null && $images->getUsers() !== $this) {
-        $images->setUsers($this);
-    }
-
-    $this->images = $images;
-
-    return $this;
-}
 
 
 }

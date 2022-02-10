@@ -53,16 +53,15 @@ class Sortie
     private $isPublished;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'estInscrit')]
-    private $contientInscrit;
+    private $aEteInscrit;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'estOrganisateur')]
-    private $estOrganisePar;
+
 
 
     public function __construct()
     {
         $this->isPublished = true;
-        $this->contientInscrit = new ArrayCollection();
+        $this->aEteInscrit = new ArrayCollection();
     }
 
 
@@ -209,38 +208,26 @@ class Sortie
     /**
      * @return Collection|User[]
      */
-    public function getContientInscrit(): Collection
+    public function getAEteInscrit(): Collection
     {
-        return $this->contientInscrit;
+        return $this->aEteInscrit;
     }
 
-    public function addContientInscrit(User $contientInscrit): self
+    public function addAEteInscrit(User $aEteInscrit): self
     {
-        if (!$this->contientInscrit->contains($contientInscrit)) {
-            $this->contientInscrit[] = $contientInscrit;
-            $contientInscrit->addEstInscrit($this);
+        if (!$this->aEteInscrit->contains($aEteInscrit)) {
+            $this->aEteInscrit[] = $aEteInscrit;
+            $aEteInscrit->addEstInscrit($this);
         }
 
         return $this;
     }
 
-    public function removeContientInscrit(User $contientInscrit): self
+    public function removeAEteInscrit(User $aEteInscrit): self
     {
-        if ($this->contientInscrit->removeElement($contientInscrit)) {
-            $contientInscrit->removeEstInscrit($this);
+        if ($this->aEteInscrit->removeElement($aEteInscrit)) {
+            $aEteInscrit->removeEstInscrit($this);
         }
-
-        return $this;
-    }
-
-    public function getEstOrganisePar(): ?User
-    {
-        return $this->estOrganisePar;
-    }
-
-    public function setEstOrganisePar(?User $estOrganisePar): self
-    {
-        $this->estOrganisePar = $estOrganisePar;
 
         return $this;
     }
