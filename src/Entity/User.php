@@ -56,13 +56,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private $site;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateurSortie', targetEntity: Inscrire::class)]
-    private $UserInscrires;
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'aEteInscrit')]
+    private $estInscrit;
 
     public function __construct()
     {
-        $this->UserInscrires = new ArrayCollection();
+        $this->estInscrit = new ArrayCollection();
     }
+
+
 
 
 
@@ -241,34 +243,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }*/
 
 /**
- * @return Collection|Inscrire[]
+ * @return Collection|Sortie[]
  */
-public function getUserInscrires(): Collection
+public function getEstInscrit(): Collection
 {
-    return $this->UserInscrires;
+    return $this->estInscrit;
 }
 
-public function addUserInscrire(Inscrire $inscrire): self
+public function addEstInscrit(Sortie $estInscrit): self
 {
-    if (!$this->UserInscrires->contains($inscrire)) {
-        $this->UserInscrires[] = $inscrire;
-        $inscrire->setUtilisateurSortie($this);
+    if (!$this->estInscrit->contains($estInscrit)) {
+        $this->estInscrit[] = $estInscrit;
     }
 
     return $this;
 }
 
-public function removeUserInscrire(Inscrire $inscrire): self
+public function removeEstInscrit(Sortie $estInscrit): self
 {
-    if ($this->UserInscrires->removeElement($inscrire)) {
-        // set the owning side to null (unless already changed)
-        if ($inscrire->getUtilisateurSortie() === $this) {
-            $inscrire->setUtilisateurSortie(null);
-        }
-    }
+    $this->estInscrit->removeElement($estInscrit);
 
     return $this;
 }
+
 
 
 }
