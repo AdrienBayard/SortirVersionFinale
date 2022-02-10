@@ -52,14 +52,16 @@ class Sortie
     #[ORM\Column(type: 'boolean')]
     private $isPublished;
 
-    #[ORM\OneToMany(mappedBy: 'sortieUtilisateur', targetEntity: Inscrire::class)]
-    private $sortieInscrires;
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'estInscrit')]
+    private $aEteInscrit;
+
+
 
 
     public function __construct()
     {
         $this->isPublished = true;
-        $this->sortieInscrires = new ArrayCollection();
+        $this->aEteInscrit = new ArrayCollection();
     }
 
 
@@ -204,35 +206,31 @@ class Sortie
     }
 
     /**
-     * @return Collection|Inscrire[]
+     * @return Collection|User[]
      */
-    public function getSortieInscrires(): Collection
+    public function getAEteInscrit(): Collection
     {
-        return $this->sortieInscrires;
+        return $this->aEteInscrit;
     }
 
-    public function addSortieInscrire(Inscrire $sortieInscrire): self
+    public function addAEteInscrit(User $aEteInscrit): self
     {
-        if (!$this->sortieInscrires->contains($sortieInscrire)) {
-            $this->sortieInscrires[] = $sortieInscrire;
-            $sortieInscrire->setSortieUtilisateur($this);
+        if (!$this->aEteInscrit->contains($aEteInscrit)) {
+            $this->aEteInscrit[] = $aEteInscrit;
+            $aEteInscrit->addEstInscrit($this);
         }
 
         return $this;
     }
 
-    public function removeSortieInscrire(Inscrire $sortieInscrire): self
+    public function removeAEteInscrit(User $aEteInscrit): self
     {
-        if ($this->sortieInscrires->removeElement($sortieInscrire)) {
-            // set the owning side to null (unless already changed)
-            if ($sortieInscrire->getSortieUtilisateur() === $this) {
-                $sortieInscrire->setSortieUtilisateur(null);
-            }
+        if ($this->aEteInscrit->removeElement($aEteInscrit)) {
+            $aEteInscrit->removeEstInscrit($this);
         }
 
         return $this;
     }
-
 
 
 }
