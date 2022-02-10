@@ -62,6 +62,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'estOrganisePar', targetEntity: Sortie::class)]
     private $estOrganisateur;
 
+    #[ORM\OneToOne(mappedBy: 'users', targetEntity: Images::class, cascade: ['persist', 'remove'])]
+    private $images;
+
     public function __construct()
     {
         $this->estInscrit = new ArrayCollection();
@@ -295,6 +298,28 @@ public function removeEstOrganisateur(Sortie $estOrganisateur): self
             $estOrganisateur->setEstOrganisePar(null);
         }
     }
+
+    return $this;
+}
+
+public function getImages(): ?Images
+{
+    return $this->images;
+}
+
+public function setImages(?Images $images): self
+{
+    // unset the owning side of the relation if necessary
+    if ($images === null && $this->images !== null) {
+        $this->images->setUsers(null);
+    }
+
+    // set the owning side of the relation if necessary
+    if ($images !== null && $images->getUsers() !== $this) {
+        $images->setUsers($this);
+    }
+
+    $this->images = $images;
 
     return $this;
 }

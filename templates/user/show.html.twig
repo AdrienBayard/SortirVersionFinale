@@ -6,21 +6,22 @@
     <h1>{{ user.pseudo }}</h1>
 
 
-   {# <img src="{{ asset('public/upload/images/users/{{user.photo}}') }}" width=150" height="150" alt="">#}
+    {#<img src="{{ asset('public/upload/images/users/{{user.photo}}') }}" width=150" height="150" alt="">#}
 
     {% if user.photo!=null %}
         <img src="{{ asset('upload/images/users/'~user.photo) }}"width=150" height="150" alt="">
     {% else %}
-        <img src="{{ asset('upload/images/users/user2.jpg') }}">
+        <img src="{{ asset('upload/images/users/user2.jpg') }}" alt="">
     {% endif %}
-
-    <table class="container">
+<div>
+    <table class="container lignesEspacees">
         <tbody>
 
         <tr>
             <th>Prénom :</th>
             <td>{{ user.prenom }}</td>
         </tr>
+
 
                 <th>Nom :</th>
                 <td>{{ user.nom }}</td>
@@ -40,10 +41,13 @@
         </tr>
         </tbody>
     </table>
+    <br>
+    <br>
+    <br>
+</div>
 
     <div class="buttonretouruser">
-
-    <button class="button is-warning button is-medium"><a href="{{ path('user_index') }}">Retour</a></button>
+    <button class="button is-warning button is-size-6-mobile"><a href="{{ path('user_index') }}">Retour</a></button>
     </div>
 
 

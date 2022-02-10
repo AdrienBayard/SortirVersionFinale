@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\Site;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use mysql_xdevapi\BaseResult;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,6 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
+
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -33,8 +38,10 @@ class UserType extends AbstractType
             ])
             ->add('site',null, ["label" => "Ville de ratachement: "])
 
-            ->add('photo',null, [
-                "label" => "Ma photo: "])
+            ->add('images', FileType::class,[
+                'label' => false,
+                'mapped'=> false
+            ])
 
 
 

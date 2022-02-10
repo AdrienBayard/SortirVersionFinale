@@ -17,8 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
 
-    const USERS_BASE_PATH = 'img/profil';
-    const USERS_UPLOAD_DIR = 'public/img/profil';
+    const USERS_BASE_PATH = 'upload/images/users';
+    const USERS_UPLOAD_DIR = 'public/upload/images/users';
 
 
     #[Route('/', name: 'user_index', methods: ['GET'])]
@@ -38,6 +38,15 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //on récupère les images transmises
+            $image = $form->get('images')->getData();
+            // on copie le fichier dans le dossier upload
+            $image->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+
+
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -70,15 +79,17 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('user_index', [
+                ImageField::new('photo')
+                    ->setBasePath(self::USERS_BASE_PATH)
+                    ->setUploadDir(self::USERS_UPLOAD_DIR),
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
-            ImageField::new('photo')
-                ->setBasePath(self::USERS_BASE_PATH)
-                ->setUploadDir(self::USERS_UPLOAD_DIR),
+
         ]);
     }
 

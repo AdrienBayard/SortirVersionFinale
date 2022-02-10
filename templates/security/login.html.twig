@@ -5,15 +5,17 @@
 {% block title %}{% endblock %}
 
 <br>
-
-
+<h1>Bienvenue dans la communauté ENI</h1>
+<div class="logo-centre">
+<a href="{{ path('app_login') }}"><img  class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
+</div>
+{#
 <figure class="image is-128x128" >
     <img class="is-rounded" src="{{ asset('img/sport.jpg') }}">
 </figure>
 <figure class="image is-128x128">
     <img class="is-rounded" src="{{ asset('img/cinema.jpg') }}">
-</figure>
-
+</figure>#}
 
 
 {% block body %}
@@ -22,11 +24,11 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    {% if app.user %}
+   {# {% if app.user %}
         <div class="mb-3">
             You are logged in as {{ app.user.pseudo }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
-    {% endif %}
+    {% endif %}#}
 
         {#Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html#}
@@ -104,7 +106,7 @@
         <div class="column">
             <div class="field">
                 <p class="control">
-                    <button class="btn btn-lg btn-primary button is-success" type="submit">
+                    <button class="btn btn-lg btn-primary btn-login" type="submit">
                         Se connecter
                     </button>
 
@@ -114,11 +116,11 @@
 </form>
 
 {% endblock %}
-<figure class="image is-128x128">
+{#<figure class="image is-128x128">
     <img class="is-rounded" src="{{ asset('img/restaurant.jpg') }}">
 </figure>
 
 <figure class="image is-128x128">
     <img class="is-rounded" src="{{ asset('img/concert.jpg') }}">
 </figure>
-</div>
+</div>#}
