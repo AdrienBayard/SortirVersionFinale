@@ -56,13 +56,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private $site;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'users')]
-    private $sortie;
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'contientInscrit')]
+    private $estInscrit;
+
+    #[ORM\OneToMany(mappedBy: 'estOrganisePar', targetEntity: Sortie::class)]
+    private $estOrganisateur;
 
     public function __construct()
     {
-        $this->sortie = new ArrayCollection();
+        $this->estInscrit = new ArrayCollection();
+        $this->estOrganisateur = new ArrayCollection();
     }
+
+
+
+
 
     public function getId(): ?int
     {
@@ -230,37 +238,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Sortie[]
-     */
-    public function getSortie(): Collection
-    {
-        return $this->sortie;
-    }
 
-    public function addSortie(Sortie $sortie): self
-    {
-        if (!$this->sortie->contains($sortie)) {
-            $this->sortie[] = $sortie;
-        }
-
-        return $this;
-    }
-
-    public function removeSortie(Sortie $sortie): self
-    {
-        $this->sortie->removeElement($sortie);
-
-        return $this;
-    }
 
 /*    public function __toString(): string
     {
         return $this->id.''.$this->roles.''.$this->nom.''.$this->prenom.''.$this->password.''.$this->mail.''.$this->pseudo.''.$this->telephone.''.$this->actif.''.$this->photo.''.$this->premiereconnexion;
     }*/
-    public function __toString(): string
-    {
-        return $this->site;
+
+/**
+ * @return Collection|Sortie[]
+ */
+public function getEstInscrit(): Collection
+{
+    return $this->estInscrit;
+}
+
+public function addEstInscrit(Sortie $estInscrit): self
+{
+    if (!$this->estInscrit->contains($estInscrit)) {
+        $this->estInscrit[] = $estInscrit;
     }
+
+    return $this;
+}
+
+public function removeEstInscrit(Sortie $estInscrit): self
+{
+    $this->estInscrit->removeElement($estInscrit);
+
+    return $this;
+}
+
+/**
+ * @return Collection|Sortie[]
+ */
+public function getEstOrganisateur(): Collection
+{
+    return $this->estOrganisateur;
+}
+
+public function addEstOrganisateur(Sortie $estOrganisateur): self
+{
+    if (!$this->estOrganisateur->contains($estOrganisateur)) {
+        $this->estOrganisateur[] = $estOrganisateur;
+        $estOrganisateur->setEstOrganisePar($this);
+    }
+
+    return $this;
+}
+
+public function removeEstOrganisateur(Sortie $estOrganisateur): self
+{
+    if ($this->estOrganisateur->removeElement($estOrganisateur)) {
+        // set the owning side to null (unless already changed)
+        if ($estOrganisateur->getEstOrganisePar() === $this) {
+            $estOrganisateur->setEstOrganisePar(null);
+        }
+    }
+
+    return $this;
+}
+
 
 }

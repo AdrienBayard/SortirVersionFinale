@@ -34,7 +34,7 @@ class Sortie
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $infosSortie;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'integer')]
     private $organisateur;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sortie')]
@@ -49,13 +49,24 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private $site;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sortie')]
-    private $users;
+    #[ORM\Column(type: 'boolean')]
+    private $isPublished;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'estInscrit')]
+    private $contientInscrit;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'estOrganisateur')]
+    private $estOrganisePar;
+
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->isPublished = true;
+        $this->contientInscrit = new ArrayCollection();
     }
+
+
+
 
     public function getId(): ?int
     {
@@ -135,12 +146,12 @@ class Sortie
     }
 
 
-    public function getOrganisateur(): ?bool
+    public function getOrganisateur(): ?int
     {
         return $this->organisateur;
     }
 
-    public function setOrganisateur(bool $organisateur): self
+    public function setOrganisateur(int $organisateur): self
     {
         $this->organisateur = $organisateur;
 
@@ -183,30 +194,56 @@ class Sortie
         return $this;
     }
 
+    public function getIsPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): self
+    {
+        $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
     /**
      * @return Collection|User[]
      */
-    public function getUsers(): Collection
+    public function getContientInscrit(): Collection
     {
-        return $this->users;
+        return $this->contientInscrit;
     }
 
-    public function addUser(User $user): self
+    public function addContientInscrit(User $contientInscrit): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addSortie($this);
+        if (!$this->contientInscrit->contains($contientInscrit)) {
+            $this->contientInscrit[] = $contientInscrit;
+            $contientInscrit->addEstInscrit($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeContientInscrit(User $contientInscrit): self
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeSortie($this);
+        if ($this->contientInscrit->removeElement($contientInscrit)) {
+            $contientInscrit->removeEstInscrit($this);
         }
 
         return $this;
     }
+
+    public function getEstOrganisePar(): ?User
+    {
+        return $this->estOrganisePar;
+    }
+
+    public function setEstOrganisePar(?User $estOrganisePar): self
+    {
+        $this->estOrganisePar = $estOrganisePar;
+
+        return $this;
+    }
+
+
 }
