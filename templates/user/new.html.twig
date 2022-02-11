@@ -1,11 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
+   <div class="h1">
+       <h1>Mon profil : </h1>
+   </div>
 
-    {{ include('user/_form.html.twig') }}
+  <div class="monProfil">
+      {#{{ include('user/_form.html.twig') }}#}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+      {{ form_row(form.pseudo) }}
+      {{ form_row(form.prenom) }}
+      {{ form_row(form.nom) }}
+      {{ form_row(form.telephone) }}
+{{ form_row(form.mail) }}
+{{ form_row(form.password) }}
+{{ form_row(form.site) }}
+      {{ form_row(form.photo) }}
+
+
+
+    <a href="{{ path('user_index') }}">Enregistrer</a>
+    <a href="{{ path('user_index') }}">Annuler</a>
+  </div>
 {% endblock %}

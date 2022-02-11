@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html class="has-background-grey-lighter">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="{{ asset('img/logo.png') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
@@ -11,11 +12,10 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+
     </head>
     <body>
+
 
     <header>
 
@@ -27,8 +27,9 @@
                     <li><a href="{{ path('ville_index') }}">Villes</a></li>
                     <li><a href="{{ path('sortie_index') }}">Sites</a></li>
                 {% endif %}
-                <li><a href="{{ path('app_login') }}">Accueil</a></li>
-                <li><a href="{{ path('user_index') }}">Mon Profil</a></li>
+                <li><a href="{{ path('sortie_index') }}">Accueil</a></li>
+
+               {# <li><a href="{{ path('user_edit', {'id': user.id}) }}">Mon Profil</a></li>#}
 
 
                 {% if not app.user %}
@@ -45,9 +46,9 @@
     </header>
 
         {% block body %}
-            <p>
-                gdfghfhfgyuyjhthgtfjhnygtfg
-            </p>{% endblock %}
+
+
+           {% endblock %}
 
 
     <footer>

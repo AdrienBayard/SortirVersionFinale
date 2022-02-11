@@ -1,13 +1,19 @@
-body {
-
-    background-color: #999999;
-
-}
 
 nav{
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #FCFF4A;
+
+}
+
+h1 {
+    text-align: center;
+}
+
+.monProfil {
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
 
 }
 
@@ -28,7 +34,7 @@ li a {
 }
 
 li a:hover {
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.4);
     border-radius:5px;
 }
 
@@ -36,6 +42,21 @@ img.logo {
     display:block;
     width : 75px;
     height : 75px;
+
+}
+
+.buttonretouruser {
+
+    text-align: center;
+
+}
+
+.container {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 
 }
 

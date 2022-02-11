@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/user')]
 class UserController extends AbstractController
 {
+
+    const USERS_BASE_PATH = 'upload/images/users';
+    const USERS_UPLOAD_DIR = 'public/upload/images/users';
+
+
     #[Route('/', name: 'user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
@@ -22,6 +29,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_USER")]
     #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -30,6 +38,15 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //on récupère les images transmises
+            $image = $form->get('images')->getData();
+            // on copie le fichier dans le dossier upload
+            $image->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+
+
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -47,6 +64,9 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            ImageField::new('photo')
+                ->setBasePath(self::USERS_BASE_PATH)
+                ->setUploadDir(self::USERS_UPLOAD_DIR),
         ]);
     }
 
@@ -59,12 +79,17 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('user_index', [
+                ImageField::new('photo')
+                    ->setBasePath(self::USERS_BASE_PATH)
+                    ->setUploadDir(self::USERS_UPLOAD_DIR),
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
+
         ]);
     }
 
