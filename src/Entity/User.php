@@ -62,6 +62,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    /* #[ORM\OneToOne(mappedBy: 'users', targetEntity: Images::class, cascade: ['persist', 'remove'])]
     private $images;*/
 
+    private $plainPassword;
+
+
     public function __construct()
     {
         $this->estInscrit = new ArrayCollection();
@@ -290,5 +293,18 @@ public function removeEstInscrit(Sortie $estInscrit): self
     return $this;
 }*/
 
+
+    //------------------------------------
+    // Adrien - hash password
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
 
 }
