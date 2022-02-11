@@ -37,10 +37,11 @@
     </table>
 
     <a href="{{ path('sortie_index') }}"><button class="btn">Retour à la liste des sorties</button></a>
-    <a href="{{ path('sortie_inscription1', {'id': sortie.id}) }}">s'inscrire</a>
+    <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
+    <a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a>
 
 
-    <button type="remove" name="removeInscrire" value="desister"class="btn">Se désister</button>
+
     <a href="{{ path('sortie_edit', {'id': sortie.id}) }}"><button class="btn">Modifier la sortie</button></a>
     <a href="{{ path('sortie_delete', {'id': sortie.id}) }}"><button class="btn">Annuler la sortie</button></a>
     <br>

@@ -106,8 +106,8 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/inscription/{id}', name: 'sortie_inscription1')]
 
+    #[Route('/inscription/{id}', name: 'sortie_inscription')]
     public function add_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id){
 
         $sortie = $em->getRepository(Sortie::class)->find($id);
@@ -119,6 +119,17 @@ class SortieController extends AbstractController
 
     }
 
+    #[Route('/desister/{id}', name: 'sortie_desister')]
+    public function desister_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id){
+
+        $sortie = $em->getRepository(Sortie::class)->find($id);
+        $sortie->removeAEteInscrit($this->getUser());
+        $em->persist($sortie);
+        $em->flush();
+        $this->addFlash('success', 'Tu as été désinscrit !');
+        return $this->redirectToRoute('user_index');
+
+    }
 
 
 }
