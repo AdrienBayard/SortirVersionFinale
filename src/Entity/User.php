@@ -59,13 +59,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'aEteInscrit')]
     private $estInscrit;
 
+   /* #[ORM\OneToOne(mappedBy: 'users', targetEntity: Images::class, cascade: ['persist', 'remove'])]
+    private $images;*/
+
+    private $plainPassword;
+
+
     public function __construct()
     {
         $this->estInscrit = new ArrayCollection();
+
     }
-
-
-
 
 
 
@@ -237,6 +241,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+
 /*    public function __toString(): string
     {
         return $this->id.''.$this->roles.''.$this->nom.''.$this->prenom.''.$this->password.''.$this->mail.''.$this->pseudo.''.$this->telephone.''.$this->actif.''.$this->photo.''.$this->premiereconnexion;
@@ -265,7 +271,40 @@ public function removeEstInscrit(Sortie $estInscrit): self
 
     return $this;
 }
+    /*public function getImages(): ?Images
+    {
+        return $this->images;
+    }*/
+
+/*public function setImages(?Images $images): self
+{
+    // unset the owning side of the relation if necessary
+    if ($images === null && $this->images !== null) {
+        $this->images->setUsers(null);
+    }
+
+    // set the owning side of the relation if necessary
+    if ($images !== null && $images->getUsers() !== $this) {
+        $images->setUsers($this);
+    }
+
+    $this->images = $images;
+
+    return $this;
+}*/
 
 
+    //------------------------------------
+    // Adrien - hash password
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
 
 }

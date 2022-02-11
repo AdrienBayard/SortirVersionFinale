@@ -1,13 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
-    <h1>Edit User</h1>
+    <h1>Mon profil</h1>
+    <br>
+    <br>
+    <br>
+<div class="container">
+    {% if user.photo!=null %}
+        <img src="{{ asset('upload/images/users/'~user.photo) }}"width=150" height="150" alt="">
+    {% else %}
+        <img src="{{ asset('upload/images/users/user2.jpg') }}">
+    {% endif %}
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <td>
+        {% if user.photo is not null %}
+            <img class="img-profile rounded-circle" src="{{ asset('/' ~ user.photo) }}">
+        {% else %}
+            <i class="fas fa-user-circle"></i>
+        {% endif %}
+    </td>
 
-    {{ include('user/_delete_form.html.twig') }}
+   {# {{ form_row(form.pseudo) }}
+    <br>
+    {{ form_row(form.prenom) }}
+    <br>
+    {{ form_row(form.nom) }}
+    <br>
+    {{ form_row(form.telephone) }}
+    <br>
+    {{ form_row(form.mail) }}
+    <br>
+    {{ form_row(form.password) }}
+    <br>
+    {{ form_row(form.site) }}
+    <br>
+    {{ form_row(form.photo) }}
+    <br>
+    <br>
+    <br>#}
+</div>
+    <br>
+    <br>
+    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>
+    <div class="buttonretouruser">
+        <button class="button is-warning button is-medium"><a href="{{ path('user_index') }}">Enregistrer</a></button>
+        <button class="button is-warning button is-medium"><a href="{{ path('user_index') }}">  Annuler  </a></button>
+    </div>
+
+
 {% endblock %}

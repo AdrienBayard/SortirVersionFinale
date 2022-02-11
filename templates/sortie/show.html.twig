@@ -37,15 +37,29 @@
     </table>
 
     <a href="{{ path('sortie_index') }}"><button class="btn">Retour à la liste des sorties</button></a>
-    <a href="{{ path('gestion_inscription', {'id': sortie.id}) }}">s'inscrire</a>
+    <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
+    <a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a>
 
 
-    <button type="submit" name="submitAction" value="inscrire" class="btn">S'inscrire</button>
-    <button type="remove" name="removeInscrire" value="desister"class="btn">Se désister</button>
+
+
+
+
     <a href="{{ path('sortie_edit', {'id': sortie.id}) }}"><button class="btn">Modifier la sortie</button></a>
     <a href="{{ path('sortie_delete', {'id': sortie.id}) }}"><button class="btn">Annuler la sortie</button></a>
     <br>
     <br>
     <div>@Adrien TODO: DELETE exemple auto-généré, à gérer plus tard @Adrien {{ include('sortie/_delete_form.html.twig') }}</div>
+
+    <table class="table">
+    {% for chaqueUser in sorties %}
+
+        <tr>
+            <td>
+            <a href="{{ path('user_show',{"id": chaqueUser.id}) }}">{{ chaqueUser.pseudo }} {{ chaqueUser.nom }}</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}
