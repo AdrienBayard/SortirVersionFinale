@@ -87,6 +87,9 @@
             "ref": "b131e6cbfe1b898a508987851963fff485986285"
         }
     },
+    "egulias/email-validator": {
+        "version": "3.1.2"
+    },
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
@@ -222,6 +225,18 @@
     },
     "symfony/intl": {
         "version": "v6.0.3"
+    },
+    "symfony/mailer": {
+        "version": "6.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "bbfc7e27257d3a3f12a6fb0a42540a42d9623a37"
+        },
+        "files": [
+            "./config/packages/mailer.yaml"
+        ]
     },
     "symfony/maker-bundle": {
         "version": "1.36",
@@ -384,6 +399,18 @@
     },
     "symfony/yaml": {
         "version": "v6.0.3"
+    },
+    "symfonycasts/reset-password-bundle": {
+        "version": "1.11",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "97c1627c0384534997ae1047b93be517ca16de43"
+        },
+        "files": [
+            "./config/packages/reset_password.yaml"
+        ]
     },
     "twig/twig": {
         "version": "v3.3.8"
