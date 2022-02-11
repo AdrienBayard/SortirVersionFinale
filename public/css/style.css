@@ -17,18 +17,6 @@ h1 {
 
 }
 
-.btn {
-
-    width: 100px;
-    height: 45px;
-    left: 318px;
-    top: 831px;
-    background: #FCFF4A;
-    border: 1px solid #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
-}
-
 header {
     color: white;
 }
@@ -71,12 +59,6 @@ img.logo {
 
 
 }
-
-.lignesEspacees {
-    border-collapse : separate;
-    border-spacing : 25px;
-}
-
 
 footer {
     color: #F5F5F5;

@@ -1,14 +1,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 <link rel="stylesheet" href="{{ asset('css/stylelogin.css') }}">
+<link rel="icon" href="{{ asset('img/logo.png') }}">
 
 
 {% block title %}{% endblock %}
 
 <br>
-<h1>Bienvenue dans la communauté ENI</h1>
+
 <div class="logo-centre">
 <a href="{{ path('app_login') }}"><img  class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
 </div>
+<h1>Bienvenue dans la communauté ENI</h1>
 {#
 <figure class="image is-128x128" >
     <img class="is-rounded" src="{{ asset('img/sport.jpg') }}">
@@ -32,7 +34,7 @@
 
         {#Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html#}
-
+    <br><br><br><br>
     <div class="columns">
         <div class="column">
 
@@ -42,7 +44,7 @@
         </div>
         <div class="column">
             <div class="control has-icons-left has-icons-right">
-                <input class="input is-success form-control" type="text" value="{{ last_username }}" name="pseudo" placeholder="Pseudo" id="inputPseudo"  autocomplete="username" required autofocus>
+                <input class="input form-control" type="text" value="{{ last_username }}" name="pseudo" placeholder="Pseudo" id="inputPseudo"  autocomplete="username" required autofocus>
                 <span class="icon is-small is-left">
       <i class="fas fa-user"></i>
     </span>
@@ -68,7 +70,7 @@
         <div class="column">
 
             <div class="control has-icons-left has-icons-right">
-                <input class="input is-success form-control" type="password" name="password" id="inputPassword"  placeholder="Mot de passe" autocomplete="current-password" required>
+                <input class="input form-control" type="password" name="password" id="inputPassword"  placeholder="Mot de passe" autocomplete="current-password" required>
                 <span class="icon is-small is-left">
       <i class="fas fa-lock"></i>
     </span>

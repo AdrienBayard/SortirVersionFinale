@@ -59,8 +59,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'aEteInscrit')]
     private $estInscrit;
 
-    #[ORM\OneToOne(mappedBy: 'users', targetEntity: Images::class, cascade: ['persist', 'remove'])]
-    private $images;
+   /* #[ORM\OneToOne(mappedBy: 'users', targetEntity: Images::class, cascade: ['persist', 'remove'])]
+    private $images;*/
 
     public function __construct()
     {
@@ -268,12 +268,12 @@ public function removeEstInscrit(Sortie $estInscrit): self
 
     return $this;
 }
-    public function getImages(): ?Images
+    /*public function getImages(): ?Images
     {
         return $this->images;
-    }
+    }*/
 
-public function setImages(?Images $images): self
+/*public function setImages(?Images $images): self
 {
     // unset the owning side of the relation if necessary
     if ($images === null && $this->images !== null) {
@@ -288,7 +288,7 @@ public function setImages(?Images $images): self
     $this->images = $images;
 
     return $this;
-}
+}*/
 
 
 }

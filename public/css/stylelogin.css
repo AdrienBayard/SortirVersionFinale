@@ -17,6 +17,11 @@ body {
     font-size: 17px;
 }
 
+#inputPseudo, #inputPassword {
+
+    border-color: #FCFF4A;
+}
+
 h1{
     text-align: center;
     font-size: 55px;
