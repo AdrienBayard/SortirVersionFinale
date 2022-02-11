@@ -73,8 +73,17 @@ class SortieController extends AbstractController
     #[Route('/{id}', name: 'sortie_show', methods: ['GET'])]
     public function show(Sortie $sortie): Response
     {
+
+       $sorties = $sortie->getAEteInscrit();
+
+        dump($sorties);
+
+/*        return $this->render('sortie/index.html.twig', [
+            'sorties' => $sortieRepository->findAll(),
+        ]);*/
+
         return $this->render('sortie/show.html.twig', [
-            'sortie' => $sortie,
+            'sortie' => $sortie, 'sorties' => $sorties
         ]);
     }
 
@@ -108,26 +117,32 @@ class SortieController extends AbstractController
     }
 
     #[Route('/inscription/{id}', name: 'sortie_inscription')]
-    public function add_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id){
+    public function add_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository){
 
         $sortie = $em->getRepository(Sortie::class)->find($id);
         $sortie->addAEteInscrit($this->getUser());
         $em->persist($sortie);
         $em->flush();
         $this->addFlash('success', 'L\'inscription a été faite !');
-        return $this->redirectToRoute('user_index');
+
+       // return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
+        return $this->redirectToRoute('sortie_index');
+
+
 
     }
 
     #[Route('/desister/{id}', name: 'sortie_desister')]
-    public function desister_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id){
+    public function desister_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository){
 
         $sortie = $em->getRepository(Sortie::class)->find($id);
         $sortie->removeAEteInscrit($this->getUser());
+
         $em->persist($sortie);
         $em->flush();
         $this->addFlash('success', 'Tu as été désinscrit !');
-        return $this->redirectToRoute('user_index');
+        //return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
+        return $this->redirectToRoute('sortie_index');
 
     }
 
