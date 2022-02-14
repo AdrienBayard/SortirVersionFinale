@@ -6,8 +6,6 @@
     <h1>{{ user.pseudo }}</h1>
 
 
-    {#<img src="{{ asset('public/upload/images/users/{{user.photo}}') }}" width=150" height="150" alt="">#}
-
     {% if user.photo!=null %}
         <img src="{{ asset('upload/images/users/'~user.photo) }}"width=150" height="150" alt="">
     {% else %}

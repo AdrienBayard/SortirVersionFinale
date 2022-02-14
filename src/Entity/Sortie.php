@@ -50,7 +50,7 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private $lieu;
 
-    #[ORM\ManyToOne(targetEntity: Etat::class, inversedBy: 'sortie')]
+    #[ORM\ManyToOne(targetEntity: Etat::class, cascade: ["persist"], inversedBy: 'sortie')]
     #[ORM\JoinColumn(nullable: false)]
     private $etat;
 
@@ -64,6 +64,9 @@ class Sortie
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'estInscrit')]
     private $aEteInscrit;
 
+    #[ORM\Column(type: 'string', length: 500, nullable: true)]
+    private $motif;
+
 
 
 
@@ -71,6 +74,8 @@ class Sortie
     {
         $this->isPublished = true;
         $this->aEteInscrit = new ArrayCollection();
+        $this->dateHeureDebut = new \DateTime();
+        $this->dateLimiteInscription= new \DateTime();
     }
 
 
@@ -237,6 +242,18 @@ class Sortie
         if ($this->aEteInscrit->removeElement($aEteInscrit)) {
             $aEteInscrit->removeEstInscrit($this);
         }
+
+        return $this;
+    }
+
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(string $motif): self
+    {
+        $this->motif = $motif;
 
         return $this;
     }

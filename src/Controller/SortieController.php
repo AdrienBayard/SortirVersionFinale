@@ -8,6 +8,7 @@ use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Entity\Ville;
+use App\Form\AnnulerSortieType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,6 +31,7 @@ class SortieController extends AbstractController
     #[Route('/new', name: 'sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+
         $sortie = new Sortie();
         $lieu= new Lieu();
         $ville= new Ville();
@@ -39,6 +41,8 @@ class SortieController extends AbstractController
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $sortie->setDateHeureDebut(new \DateTime());
+            $sortie->getDateLimiteInscription(new \DateTime());
             $sortie->setOrganisateur(1);
             $lieuRecupere = $request->request->get("lieu", "");
             $lieu->setNom($lieuRecupere);
@@ -154,6 +158,31 @@ class SortieController extends AbstractController
         //return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
         return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
 
+    }
+
+    #[Route('/{id}/annuler', name:'sortie_annuler', methods:['GET', 'POST'] )]
+    public function annuler(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+
+        $form = $this->createForm(AnnulerSortieType::class, $sortie);
+        $form->handleRequest($request);
+        $etat=new Etat();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+          $sortieRecuperee = $request->request->get("motif", "");
+            $sortie->setMotif($sortieRecuperee);
+           $etat->setLibelle("Annulée");
+            $sortie->setEtat($etat);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('sortie/annuler.html.twig', [
+            'sortie' => $sortie,
+            'form' => $form,
+        ]);
     }
 
 

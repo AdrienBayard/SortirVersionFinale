@@ -42,7 +42,7 @@ class UserController extends AbstractController
             // on copie le fichier dans le dossier upload
             $image->move(
                 $this->getParameter('images_directory'),
-               // $fichier
+
             );
 
 
