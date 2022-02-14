@@ -85,7 +85,8 @@ font-size: 25px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 25px;
+    margin-right: 25px;
+
 }
 .colonneGauche{
     line-height: 35px;
@@ -93,6 +94,15 @@ font-size: 25px;
 .colonneDroite{
     line-height: 30px;
 }
+.container{
+ display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+
+
+}
+
 
 .containerFormulaire{
     display: flex;
