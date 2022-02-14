@@ -13,16 +13,10 @@
     {% else %}
         <img src="{{ asset('upload/images/users/user2.jpg') }}">
     {% endif %}
-
+    <br>
     {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
-    <td>
-        {% if user.photo is not null %}
-            <img class="img-profile rounded-circle" src="{{ asset('/' ~ user.photo) }}">
-        {% else %}
-            <i class="fas fa-user-circle"></i>
-        {% endif %}
-    </td>
+
 
    {# {{ form_row(form.pseudo) }}
     <br>
@@ -43,13 +37,8 @@
     <br>
     <br>#}
 </div>
-    <br>
-    <br>
-    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>
-    <div class="buttonretouruser">
-        <button class="button is-warning button is-medium"><a href="{{ path('user_index') }}">Enregistrer</a></button>
-        <button class="button is-warning button is-medium"><a href="{{ path('user_index') }}">  Annuler  </a></button>
-    </div>
+
+
 
 
 {% endblock %}

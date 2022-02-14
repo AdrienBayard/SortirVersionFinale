@@ -35,7 +35,7 @@ class UserType extends AbstractType
             ])
             ->add('site',null, ["label" => "Ville de ratachement: "])
 
-            ->add('images', FileType::class,[
+            ->add('photo', FileType::class,[
                 'label' => false,
                 'mapped'=> false
             ])

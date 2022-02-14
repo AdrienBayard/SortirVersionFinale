@@ -44,7 +44,7 @@ class UserController extends AbstractController
             // on copie le fichier dans le dossier upload
             $image->move(
                 $this->getParameter('images_directory'),
-                $fichier
+
             );
 
 
@@ -89,11 +89,7 @@ class UserController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index', [
-                ImageField::new('photo')
-                    ->setBasePath(self::USERS_BASE_PATH)
-                    ->setUploadDir(self::USERS_UPLOAD_DIR),
-            ], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->renderForm('user/edit.html.twig', [
