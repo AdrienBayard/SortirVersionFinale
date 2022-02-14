@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
+
 
 class UserType extends AbstractType
 {
@@ -33,12 +36,18 @@ class UserType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe :'],
                 'second_options' => ['label' => 'Confirmation :'],
             ])
-            ->add('site',null, ["label" => "Ville de ratachement: "])
+            ->add('site',EntityType::class, ['label' => 'Site de rattachement :', "class"=>Site::class,
+                "choice_label" => "nom",])
 
-            ->add('images', FileType::class,[
-                'label' => false,
-                'mapped'=> false
-            ])
+            ->add('fichierImage',
+                VichFileType::class,
+                ["label" => "Ajouter une image",
+                    'required' => false,
+                    'allow_delete' => false,
+                    'download_uri' => false,
+
+                ]
+            )
 
 
 

@@ -124,8 +124,13 @@ class SortieController extends AbstractController
     #[Route('/inscription/{id}', name: 'sortie_inscription')]
     public function add_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository){
 
+
+
         $sortie = $em->getRepository(Sortie::class)->find($id);
         $sortie->addAEteInscrit($this->getUser());
+
+
+
         $em->persist($sortie);
         $em->flush();
         $this->addFlash('success', 'L\'inscription a été faite !');

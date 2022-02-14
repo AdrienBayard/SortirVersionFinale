@@ -18,8 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
 
-    const USERS_BASE_PATH = 'upload/images/users';
-    const USERS_UPLOAD_DIR = 'public/upload/images/users';
 
 
     #[Route('/', name: 'user_index', methods: ['GET'])]
@@ -44,7 +42,7 @@ class UserController extends AbstractController
             // on copie le fichier dans le dossier upload
             $image->move(
                 $this->getParameter('images_directory'),
-                $fichier
+               // $fichier
             );
 
 
@@ -65,9 +63,7 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            ImageField::new('photo')
-                ->setBasePath(self::USERS_BASE_PATH)
-                ->setUploadDir(self::USERS_UPLOAD_DIR),
+
         ]);
     }
 
@@ -90,9 +86,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('user_index', [
-                ImageField::new('photo')
-                    ->setBasePath(self::USERS_BASE_PATH)
-                    ->setUploadDir(self::USERS_UPLOAD_DIR),
+
             ], Response::HTTP_SEE_OTHER);
         }
 

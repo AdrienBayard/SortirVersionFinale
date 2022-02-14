@@ -6,16 +6,29 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+
+
 
 /**
  * @UniqueEntity(fields={"pseudo"}, message="There is already an account with this pseudo")
  */
+/**
+ * @Vich\Uploadable()
+ */
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -46,9 +59,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $actif;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $photo;
-
     #[ORM\Column(type: 'boolean')]
     private $premiereconnexion;
 
@@ -61,6 +71,55 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
    /* #[ORM\OneToOne(mappedBy: 'users', targetEntity: Images::class, cascade: ['persist', 'remove'])]
     private $images;*/
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $photo;
+
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo): void
+    {
+        $this->photo = $photo;
+    }
+
+    /**
+     * @Vich\UploadableField(mapping="user_image", fileNameProperty="photo")
+     * @param File|UploadedFile|null $fichierImage
+     */
+    private $fichierImage;
+
+    /**
+     * @param mixed $fichierImage
+     */
+
+    public function setFichierImage(?File $fichier = null): self
+    {
+        $this->fichierImage = $fichier;
+        if ($fichier) {
+            $this->pseudo;
+        }
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFichierImage(): mixed
+    {
+        return $this->fichierImage;
+    }
+
+
+
 
     private $plainPassword;
 
@@ -205,17 +264,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
 
-    public function setPhoto(?string $photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
 
     public function getPremiereconnexion(): ?bool
     {
@@ -307,4 +356,20 @@ public function removeEstInscrit(Sortie $estInscrit): self
         return $this;
     }
 
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->pseudo,
+            $this->password,
+        ));    }
+
+    public function unserialize(string $serialized)
+    {
+        list (
+            $this->id,
+            $this->pseudo,
+            $this->password,
+            ) = unserialize($serialized);    }
 }
