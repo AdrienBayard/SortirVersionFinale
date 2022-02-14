@@ -3,7 +3,6 @@ nav{
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #FCFF4A;
-
 }
 
 h1 {
@@ -69,4 +68,124 @@ footer {
     position: absolute;
     bottom: 0;
 
+}
+
+/*----------CSS ADRIEN--------------*/
+.adefilement{
+    height: 500px;
+    width: 150px;
+    overflow-y: auto;
+}
+
+.a1{
+    flex: 3 1 0;
+}
+.a2{
+    flex: 2 1 0;
+}
+.a3{
+    flex: 1 1 0;
+}
+.a4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+.aflex{
+    display: flex;
+}
+
+.abox{
+    margin: 0 auto;
+    position: relative;
+    min-width: 250px;
+    min-height: 300px;
+    max-height: 500px;
+
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+    border-right: 1px solid rgba(255, 255,255,0.2);
+    border: 1px solid rgba(255,255, 255,0.5);
+    border-bottom: 1px solid rgba(255, 255, 255,0.2);
+    border-radius: 10px;
+    z-index: 10;
+    padding: 20px;
+}
+
+.abox h1{
+    color: #0f172a;
+    margin-bottom: 20px;
+}
+
+.abox .alist,
+.abox .blist
+{
+    position: relative;
+    display: flex;
+    padding: 10px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.abox .alist:hover
+{
+    background: #fff;
+    box-shadow: -15px 30px 50px rgba(0,0,0,0.5);
+    transform: scale(1.15) translatex(30px) translateY(-15px);
+    z-index: 1000;
+}
+
+.abox .alist .imgBx {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-right: 10px;
+}
+.abox .alist .imgBx img
+{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    object-fit: cover;
+}
+
+.abox .alist .acontent
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #288775;
+}
+
+.abox .alist .acontent h4,
+.abox .blist .acontent h4
+
+{
+    line-height: 1.2em;
+    font-weight: 600;
+    transition: 0.5s;
+}
+
+.abox .alist .acontent p,
+.abox .blist .acontent p
+
+{
+    line-height: 0.75em;
+    transition: 0.5s;
+    margin-left:30px;
+
+}
+
+.abox .alist:hover .acontent h4,
+.abox .alist:hover .acontent p
+{
+    color: #333;
 }
