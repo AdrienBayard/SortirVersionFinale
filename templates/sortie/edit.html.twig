@@ -4,14 +4,18 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/SortieCSS.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 {% endblock %}
 {% block body %}
     <div>
     <h1>Modifier une sortie</h1>
     </div>
+
+
+
  {#   {{ include('sortie/_form.html.twig', {'button_label': 'Update'}) }}#}
 
-    <div class="container">
+    <div class="abox a1">
         {{ form_start(form) }}
 
         <div class="containerFormulaire">
@@ -47,17 +51,20 @@
                 <input id="longitude" placeholder="longitude"><br>
             </div>
         </div>
-    </div>
 
-    <div class="btnAlignes">
-        <button class="btn">Enregistrer</button>
+        <div class="btnAlignes">
+            <button class="btn">Enregistrer</button>
 
-        <button class="btnRetour"><a href="{{ path('sortie_index') }}">Retour</a></button>
+            <button class="btnRetour"><a href="{{ path('sortie_annuler' , {'id': sortie.id})}}">Annuler la sortie</a></button>
+
+      {#      <a class="btnSupprimer"> {{ include('sortie/_delete_form.html.twig') }}</a>#}
+
+            <button class="btnRetour"><a href="{{ path('sortie_index') }}">Retour</a></button>
+        </div>
+
 
         {{ form_end(form) }}
     </div>
-    <div>
-        {{ include('sortie/_delete_form.html.twig') }}
-    </div>
+
 
 {% endblock %}

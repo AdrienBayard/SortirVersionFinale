@@ -3,6 +3,7 @@
 {% block title %}Créer une Sortie{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/SortieCSS.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 {% endblock %}
 {% block body %}
 
@@ -11,7 +12,7 @@
     <h1>Créer une sortie</h1>
     </div>
 
-    <div class="container">
+    <div class="abox a1">
     {{ form_start(form) }}
 
     <div class="containerFormulaire">
@@ -49,14 +50,7 @@
     </div>
 
     </div>
-        <div >
-          {#   <h6>Ville organisatrice : {{ sortie.siteOrg }}</h6><br>#}
-            <h6>Lieu : {{ sortie.lieu }}</h6><br>
-            <h6>Rue : {{ sortie.lieu.rue }}</h6><br>
-            <h6>Code postal : {{ sortie.lieu.ville.codePostal }}</h6><br>
-            <h6>Latitude : {{ sortie.lieu.latitude }}</h6><br>
-            <h6>Longitude : {{ sortie.lieu.longitude }}</h6><br>
-        </div>
+
 
     <div class="btnAlignes">
         <button class="btn">Enregistrer</button>
