@@ -126,7 +126,7 @@ class SortieController extends AbstractController
         $this->addFlash('success', 'L\'inscription a été faite !');
 
        // return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
-        return $this->redirectToRoute('sortie_index');
+        return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
 
 
 
@@ -142,7 +142,7 @@ class SortieController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'Tu as été désinscrit !');
         //return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
-        return $this->redirectToRoute('sortie_index');
+        return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
 
     }
 
