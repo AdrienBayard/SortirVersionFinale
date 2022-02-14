@@ -33,8 +33,8 @@ class UserType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe :'],
                 'second_options' => ['label' => 'Confirmation :'],
             ])
-            ->add('site',null, ["label" => "Ville de ratachement: "])
-
+            ->add('site',EntityType::class, ["class"=>Site::class,
+                "choice_label" => "nom",])
             ->add('images', FileType::class,[
                 'label' => false,
                 'mapped'=> false

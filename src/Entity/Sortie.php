@@ -64,7 +64,7 @@ class Sortie
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'estInscrit')]
     private $aEteInscrit;
 
-    #[ORM\Column(type: 'string', length: 500)]
+    #[ORM\Column(type: 'string', length: 500, nullable: true)]
     private $motif;
 
 
@@ -74,6 +74,8 @@ class Sortie
     {
         $this->isPublished = true;
         $this->aEteInscrit = new ArrayCollection();
+        $this->dateHeureDebut = new \DateTime();
+        $this->dateLimiteInscription= new \DateTime();
     }
 
 
