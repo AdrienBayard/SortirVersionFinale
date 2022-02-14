@@ -35,25 +35,30 @@ class SortieController extends AbstractController
         $ville= new Ville();
         $site=new Site();
         $etat=new Etat();
-
         $sortie->setSite($this->getUser()->getSite());
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setOrganisateur(1);
-            $lieuRecupere = $request->request->get("lieu", "Nantes");
+            $lieuRecupere = $request->request->get("lieu", "");
             $lieu->setNom($lieuRecupere);
             $lieuRecupere = $request->request->get("rue", "");
             $lieu->setRue($lieuRecupere);
+            $lieuRecupere = $request->request->get("latitude", "");
+            $lieu->setLatitude((float)$lieuRecupere);
+            $lieuRecupere = $request->request->get("longitude", "");
+            $lieu->setLongitude((float)$lieuRecupere);
             $sortie->setLieu($lieu);
             $lieu->setVille($ville);
             $sortie->setSite($site);
             $sortie->setEtat($etat);
-            $site->setNom("nantes");
-            $etat->setLibelle("");
+           // $site->setNom("nantes");
+           // $ville->setCodePostal("44000");
+            $etat->setLibelle("En création");
             $villeRecupere= $request->request->get("ville", "Nantes");
             $ville->setNom($villeRecupere);
+            $villeRecupere= $request->request->get("cp", "44000");
+            $ville->setCodePostal($villeRecupere);
             $entityManager-> persist($ville);
             $entityManager->persist($lieu);
             $entityManager->persist($sortie);

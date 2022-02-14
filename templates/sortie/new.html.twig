@@ -43,13 +43,20 @@
         <li data-vicopo="#ville, #code" data-vicopo-click='{"#code": "code", "#ville": "ville"}'><strong data-vicopo-code-postal></strong><span data-vicopo-ville></span></li>
     </ul>
         <br><label for="latitude">Latitude : </label>
-        <input id="latitude" placeholder="latitude"><br>
+        <input name="latitude" id="latitude" placeholder="latitude"><br>
         <br><label for="longitude">Longitude : </label>
-        <input id="longitude" placeholder="longitude"><br>
+        <input name="longitude" id="longitude" placeholder="longitude"><br>
     </div>
 
     </div>
-
+        <div >
+          {#   <h6>Ville organisatrice : {{ sortie.siteOrg }}</h6><br>#}
+            <h6>Lieu : {{ sortie.lieu }}</h6><br>
+            <h6>Rue : {{ sortie.lieu.rue }}</h6><br>
+            <h6>Code postal : {{ sortie.lieu.ville.codePostal }}</h6><br>
+            <h6>Latitude : {{ sortie.lieu.latitude }}</h6><br>
+            <h6>Longitude : {{ sortie.lieu.longitude }}</h6><br>
+        </div>
 
     <div class="btnAlignes">
         <button class="btn">Enregistrer</button>
