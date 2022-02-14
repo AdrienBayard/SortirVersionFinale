@@ -31,6 +31,7 @@ class SortieController extends AbstractController
     #[Route('/new', name: 'sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+
         $sortie = new Sortie();
         $lieu= new Lieu();
         $ville= new Ville();
@@ -40,6 +41,8 @@ class SortieController extends AbstractController
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $sortie->setDateHeureDebut(new \DateTime());
+            $sortie->getDateLimiteInscription(new \DateTime());
             $sortie->setOrganisateur(1);
             $lieuRecupere = $request->request->get("lieu", "");
             $lieu->setNom($lieuRecupere);
