@@ -3,7 +3,7 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
-    <br>
+{#     <br>
     <h1>Sortie: {{ sortie.nom }}</h1>
     <br>
     <table class="table">
@@ -29,37 +29,95 @@
                 <td>{{ sortie.infosSortie }}</td>
             </tr>
 
-            {#  <tr>
-                <th>Organisateur</th>
-                <td>{{ sortie.organisateur ? 'Yes' : 'No' }}</td>
-            </tr> #}
+
         </tbody>
     </table>
 
-    <a href="{{ path('sortie_index') }}"><button class="btn">Retour à la liste des sorties</button></a>
-    <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
-    <a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a>
+    #}
+
+<div class="aflex">
+    <div class="abox a1">
+        <h1>Sortie: {{ sortie.nom }}</h1>
+                <div class="blist">
+                    <div class="acontent a1">
+                        <h4>Date et heure de la sortie:</h4>
+                    </div>
+                    <div class="acontent a1">
+                        <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i') : '' }}</p>
+                    </div>
+                </div>
+
+        <div class="blist">
+            <div class="acontent a1">
+                <h4>Durée:</h4>
+            </div>
+            <div class="acontent a1">
+                <p>{{ sortie.duree }} minutes</p>
+            </div>
+        </div>
+
+        <div class="blist">
+            <div class="acontent a1">
+                <h4>Date limite d'inscription:</h4>
+            </div>
+            <div class="acontent a1">
+                <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y H:i') : '' }}</p>
+            </div>
+        </div>
+
+        <div class="blist">
+            <div class="acontent a1">
+                <h4>Nombre de places: </h4>
+            </div>
+            <div class="acontent a1">
+                <p>{{ sortie.nbInscriptionMax }}</p>
+            </div>
+        </div>
+
+        <div class="blist">
+            <div class="acontent a1">
+                <h4>Description et infos:</h4>
+            </div>
+            <div class="acontent a1">
+                <p>{{ sortie.infosSortie }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="a3">
+        <p class="a4"><a href="{{ path('sortie_index') }}"><button class="btn">Liste des sorties</button></a></p>
+        <p class="a4"><a href="{{ path('sortie_inscription', {'id': sortie.id}) }}"><button class="btn">S'inscrire</button></a></p>
+        <p class="a4"><a href="{{ path('sortie_desister', {'id': sortie.id}) }}"><button class="btn">Se désister</button></a></p>
+        <p class="a4"><a href="{{ path('sortie_edit', {'id': sortie.id}) }}"><button class="btn">Modifier la sortie</button></a></p>
+        <p class="a4"><a href="{{ path('sortie_delete', {'id': sortie.id}) }}"><button class="btn">Annuler la sortie</button></a></p>
+    </div>
 
 
+    <div class="abox a2 adefilement">
+        <h1>Listes des participants:</h1>
+        {% for chaqueUser in sorties %}
+            <a href="{{ path('user_show',{"id": chaqueUser.id}) }}">
+                <div class="alist">
+                    <div class="imgBx">
+                     <img src="{{ asset('upload/images/users/user4.jpg') }}">
+                    </div>
+                <div class="acontent">
+                    <h4>{{ chaqueUser.pseudo }}</h4>
+                    <p>{{ chaqueUser.nom }} {{ chaqueUser.prenom }}</p>
+                 </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
 
 
-
-
-    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}"><button class="btn">Modifier la sortie</button></a>
-    <a href="{{ path('sortie_delete', {'id': sortie.id}) }}"><button class="btn">Annuler la sortie</button></a>
     <br>
     <br>
-    <div>@Adrien TODO: DELETE exemple auto-généré, à gérer plus tard @Adrien {{ include('sortie/_delete_form.html.twig') }}</div>
+    <div>
+        <p>@Adrien TODO: DELETE exemple auto-généré, à gérer plus tard @Adrien</p>
+        <p>{{ include('sortie/_delete_form.html.twig') }}</p>
+    </div>
 
-    <table class="table">
-    {% for chaqueUser in sorties %}
-
-        <tr>
-            <td>
-            <a href="{{ path('user_show',{"id": chaqueUser.id}) }}">{{ chaqueUser.pseudo }} {{ chaqueUser.nom }}</a>
-            </td>
-        </tr>
-    {% endfor %}
-</table>
 
 {% endblock %}
