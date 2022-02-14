@@ -80,7 +80,7 @@ footer {
     width: 100%;
     text-align: center;
     text-wrap: normal;
-    position: absolute;
+    position: fixed;
     bottom: 0;
 
 }
