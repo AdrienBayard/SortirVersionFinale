@@ -99,7 +99,7 @@
             <a href="{{ path('user_show',{"id": chaqueUser.id}) }}">
                 <div class="alist">
                     <div class="imgBx">
-                     <img src="{{ asset('upload/images/users/user4.jpg') }}">
+                     <img src="{{ asset('upload/images/users/'~chaqueUser.photo) }}">
                     </div>
                 <div class="acontent">
                     <h4>{{ chaqueUser.pseudo }}</h4>
