@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Id;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,24 +69,27 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, $id): Response
     {
+
+        if ($verifid=$id){
         $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+        $form->handleRequest($request);}
 
         $plainPassword = $form->get("password")->getData();
-        if ($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid() ) {
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $plainPassword
                 )
-
             );
 
             $entityManager->flush();
+            $this->addFlash('congratulation', 'modifications enregistrées');
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('user_show',['id'=>$user->getId()]);
         }
 
         return $this->renderForm('user/edit.html.twig', [

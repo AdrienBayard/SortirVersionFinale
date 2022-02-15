@@ -23,21 +23,21 @@ class UserType extends AbstractType
     {
         $builder
 
-            ->add('pseudo',null, ["label" => "Pseudo : "])
-            ->add('prenom',null, ["label" => "Prénom : "])
+            ->add('pseudo',null, ["label" => "Pseudo  :  "])
+            ->add('prenom',null, ["label" => "Prénom :  "])
             ->add('nom',null, ["label" => "Nom : "])
-            ->add('telephone',null, ["label" => "Téléphone: "])
+            ->add('telephone',null, ["label" => "Téléphone : "])
             ->add('mail',null, ["label" => "Email : "])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe :'],
-                'second_options' => ['label' => 'Confirmation :'],
+                'first_options'  => ['label' => 'Mot de passe : '],
+                'second_options' => ['label' => 'Confirmation : '],
             ])
-            ->add('site',EntityType::class, ['label' => 'Site de rattachement :', "class"=>Site::class,
-                "choice_label" => "nom",])
+            ->add('site',EntityType::class, ['label' => 'Site de rattachement : ', 'class'=>Site::class,
+                'choice_label' => 'nom'])
 
             ->add('fichierImage',
                 VichFileType::class,

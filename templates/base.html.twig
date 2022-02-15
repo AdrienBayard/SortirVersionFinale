@@ -11,20 +11,18 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
-
     </head>
     <body>
-
-
     <header>
 
         <nav>
-            <a href="{{ path('app_login') }}"><img  class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
+            <a href="{{ path('sortie_index') }}"><img  class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
             <ul>
 
                 {% if is_granted ('ROLE_ADMIN') %}
-                    <li><a href="{{ path('ville_index') }}">Villes</a></li>
-                    <li><a href="{{ path('site_in dex') }}">Sites</a></li>
+                    <li><a href="{{ path('admin') }}">Admin</a></li>
+                    {#  <li><a href="{{ path('ville_index') }}">Villes</a></li>
+                    <li><a href="{{ path('site_in dex') }}">Sites</a></li>#}
                 {% endif %}
                 <li><a href="{{ path('sortie_index') }}">Accueil</a></li>
 
@@ -45,7 +43,13 @@
     </header>
 
         {% block body %}
-
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash-{{ label }}">
+                {{ message }}
+                    </div>
+            {% endfor %}
+            {% endfor %}
 
            {% endblock %}
 

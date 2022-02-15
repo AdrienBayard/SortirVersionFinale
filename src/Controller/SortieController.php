@@ -48,6 +48,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setDateHeureDebut(new \DateTime());
             $sortie->getDateLimiteInscription(new \DateTime());
+            $sortie->setOrganisateur(1);
             $lieuRecupere = $request->request->get("lieu", "");
             $lieu->setNom($lieuRecupere);
             $lieuRecupere = $request->request->get("rue", "");
