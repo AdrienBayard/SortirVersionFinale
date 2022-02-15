@@ -7,15 +7,23 @@
     <br>
     <br>
     <br>
-    <div class="container">
-        {% if user.photo!=null %}
-            <img src="{{ asset('upload/images/users/'~user.photo) }}"width=150" height="150" alt="">
+    <div class="container abox">
+        <div class ="a1"></div>
+        <div class="a1">
+
+    {% if user.photo!=null %}
+            <img src="{{ asset('upload/images/users/'~user.photo) }}"width=250" height="300" alt="">
         {% else %}
             <img src="{{ asset('upload/images/users/user2.jpg') }}">
         {% endif %}
-        <br>
-        {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+        </div>
+        <div class ="a3"></div>
 
+        <br>
+        <div class="blist a6">
+        {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+    </div>
+        <div class ="a1"></div>
 
 
         {# {{ form_row(form.pseudo) }}

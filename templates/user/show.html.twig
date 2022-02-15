@@ -6,18 +6,19 @@
     <h1>{{ user.pseudo }}</h1>
     <br><br>
 
-    <div class="aflex">
-        <div class="a3"></div>
-<div class="a3">
+    <div class="container aflex abox">
+        <div class="a1"></div>
+<div class="a1">
     {% if user.photo!=null %}
-        <img src="{{ asset('upload/images/users/'~user.photo) }}"width=150" height="150" alt="">
+        <img src="{{ asset('upload/images/users/'~user.photo) }}"width=250" height="300" alt="">
     {% else %}
         <img src="{{ asset('upload/images/users/user2.jpg') }}" alt="">
     {% endif %}
 
 </div>
+        <div class ="a3"></div>
 
-        <div class="abox a2">
+        <div class="a6">
             <div class="blist">
                 <div class="acontent a1">
                     <h4>Prénom :</h4>

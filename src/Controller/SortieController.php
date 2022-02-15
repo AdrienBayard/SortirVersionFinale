@@ -11,6 +11,7 @@ use App\Entity\Ville;
 use App\Form\AnnulerSortieType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'sortie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
 
         $sortie = new Sortie();
@@ -37,13 +38,16 @@ class SortieController extends AbstractController
         $ville= new Ville();
         $site=new Site();
         $etat=new Etat();
+
+        $organisateur = $userRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()], []);
+        $idOrganisateur=$organisateur->getId();
+
         $sortie->setSite($this->getUser()->getSite());
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setDateHeureDebut(new \DateTime());
             $sortie->getDateLimiteInscription(new \DateTime());
-            $sortie->setOrganisateur(1);
             $lieuRecupere = $request->request->get("lieu", "");
             $lieu->setNom($lieuRecupere);
             $lieuRecupere = $request->request->get("rue", "");
@@ -54,20 +58,23 @@ class SortieController extends AbstractController
             $lieu->setLongitude((float)$lieuRecupere);
             $sortie->setLieu($lieu);
             $lieu->setVille($ville);
-            $sortie->setSite($site);
+            //$sortie->setSite($site);
             $sortie->setEtat($etat);
+            $sortie->setOrganisateur($idOrganisateur);
+
            // $site->setNom("nantes");
            // $ville->setCodePostal("44000");
-            $etat->setLibelle("En création");
+            $etat->setLibelle("Créée");
             $villeRecupere= $request->request->get("ville", "Nantes");
             $ville->setNom($villeRecupere);
             $villeRecupere= $request->request->get("cp", "44000");
             $ville->setCodePostal($villeRecupere);
+
             $entityManager-> persist($ville);
             $entityManager->persist($lieu);
             $entityManager->persist($sortie);
-            $entityManager->persist($site);
-            $entityManager->persist($etat);
+            //$entityManager->persist($site);
+            //$entityManager->persist($etat);
             $entityManager->flush();
 
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
