@@ -2,11 +2,14 @@
 
 namespace App\Repository;
 
+use App\Entity\Site;
 use App\Entity\Sortie;
-use DateTime;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\DateTime;
+
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -50,28 +53,29 @@ class SortieRepository extends ServiceEntityRepository
     }
     */
 
+
     public function displayWithoutFilter(?User $user)
     {
         $query = $this->createQueryBuilder('sortie');
         $query->leftJoin('sortie.etat', 's');
-        // On retire les sorties enregistrées non publiées des autres users
+        // On retire les sortie enregistrés non publiés des autres users
         $query->where('sortie.nom != :nom OR sortie.organisateur = :user')
             ->setParameter('nom', 'Créée')
             ->setParameter('user', $user);
-
         // On n'affiche pas les sorties passées
         $query->andWhere('sortie.dateHeureDebut > :dateLimiteInscription')
+   //         ->setParameter('dateLimiteInscription', new DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
             ->setParameter('dateLimiteInscription', new DateTime(), Types::DATETIME_IMMUTABLE);
 
         // Trier les résultats par date limite d'inscription
-        $query->orderBy('sortie.limitDate', 'ASC');
+        $query->orderBy('sortie.dateLimiteInscription', 'ASC');
         return $query->getQuery()->getResult();
     }
+
     public function filter(?User $user, ?Site $site, ?String $search, ?DateTime $minDate, ?DateTime $maxDate, $organiser, $isParticipant, $isNotParticipant, $isArchived)
     {
         $query = $this->createQueryBuilder('sortie');
         $query->leftJoin('sortie.etat', 's');
-
         // Filtre campus
         if ($site != null) {
             $query->innerJoin('sortie.site', 'site', 'WITH', 'site = :site')
@@ -80,7 +84,6 @@ class SortieRepository extends ServiceEntityRepository
         $query->where('s.nom != :nom OR sortie.organisateur = :user')
             ->setParameter('nom', 'Créée')
             ->setParameter('user', $user);
-
         // Filtre date
         if ($minDate != null && $maxDate != null) {
             $query->andWhere($query->expr()->between('sortie.dateHeureDebut', ':date_from', ':date_to'))
@@ -103,7 +106,7 @@ class SortieRepository extends ServiceEntityRepository
         if (!$isNotParticipant && $organiser) {
             $query->andWhere(':user MEMBER OF sortie.aEteInscrit')
                 ->setParameter('user', $user);
-            $query->orWhere('event.creator = :user')
+            $query->orWhere('sortie.organisateur = :user')
                 ->setParameter('user', $user);
         }
         if ($isArchived) {
@@ -111,18 +114,18 @@ class SortieRepository extends ServiceEntityRepository
         } else {
             $dateLimit = new DateTime();
         }
-        $query->andWhere('sortie.dateHeureDebut > :dateLimiteInscription')
-            ->setParameter('dateLimiteInscription', $dateLimit, \Doctrine\DBAL\Types\Types::DATETIME_IMMUTABLE);
-
+        $query->andWhere('sortie.dateHeureDebut > :date_limit')
+            ->setParameter('date_limit', $dateLimit, Types::DATETIME_IMMUTABLE);
         // Filtre search
         if ($search != null) {
             $query->andWhere('sortie.nom LIKE :search')
                 ->setParameter('search', '%' . $search . '%');
         }
-
         // Trier les résultats par date limite d'inscription
         $query->orderBy('sortie.dateLimiteInscription', 'ASC');
         return $query->getQuery()->getResult();
     }
+
+
 
 }

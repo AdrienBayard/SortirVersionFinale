@@ -1,24 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier Profil{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
     <h1>Mon profil</h1>
+    <br>
+    <br>
+    <br>
+    <div class="container abox">
+        <div class ="a1"></div>
+        <div class="a1">
 
-
-    <div class="container">
-        {% if user.photo!=null %}
-            <img src="{{ asset('upload/images/users/'~user.photo) }}"width=150" height="150" alt="">
+    {% if user.photo!=null %}
+            <img src="{{ asset('upload/images/users/'~user.photo) }}"width=250" height="300" alt="">
         {% else %}
             <img src="{{ asset('upload/images/users/user2.jpg') }}">
         {% endif %}
+        </div>
+        <div class ="a3"></div>
+
         <br>
-
-    <div></div>
-<div>
+        <div class="blist a6">
         {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
-</div>
-
+    </div>
+        <div class ="a1"></div>
 
 
         {# {{ form_row(form.pseudo) }}
@@ -39,9 +44,9 @@
     <br>
     <br>
     <br>#}
-
-
     </div>
+
+
 
 
 {% endblock %}

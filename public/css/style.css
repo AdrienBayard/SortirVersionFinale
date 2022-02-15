@@ -111,6 +111,12 @@ footer {
     max-width: 450px;
 }
 
+.a6{
+    flex: 5 1 0;
+    justify-content: center;
+    align-items: center;
+}
+
 .aflex{
     display: flex;
 }
