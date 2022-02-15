@@ -4,52 +4,69 @@
 
 {% block body %}
     <h1>{{ user.pseudo }}</h1>
+    <br><br>
 
-
+    <div class="aflex">
+        <div class="a3"></div>
+<div class="a3">
     {% if user.photo!=null %}
         <img src="{{ asset('upload/images/users/'~user.photo) }}"width=150" height="150" alt="">
     {% else %}
         <img src="{{ asset('upload/images/users/user2.jpg') }}" alt="">
     {% endif %}
-<div>
-    <table class="container lignesEspacees">
-        <tbody>
-        <tr>
-            <th>Pseudo :</th>
-            <td>{{ user.pseudo }}</td>
-        </tr>
-
-
-        <tr>
-            <th>Prénom :</th>
-            <td>{{ user.prenom }}</td>
-        </tr>
-
-
-                <th>Nom :</th>
-                <td>{{ user.nom }}</td>
-            </tr>
-
-            <tr>
-                <th>Téléphone :</th>
-                <td>{{ user.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Email :</th>
-                <td>{{ user.mail }}</td>
-            </tr>
-        <tr>
-            <th>Ville de ratachement : </th>
-            <td>{{ user.site }}</td>
-        </tr>
-        </tbody>
-    </table>
 
 </div>
 
-    <div class="buttonretouruser">
+        <div class="abox a2">
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Prénom :</h4>
+                </div>
+                <div class="acontent a1">
+                    <p> {{ user.prenom }}</p>
+                </div>
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Nom :</h4>
+                </div>
+                <div class="acontent a1">
+                <p> {{ user.nom}}</p>
+            </div>
+                </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Téléphone :</h4>
+                </div>
+                <div class="acontent a1">
+                <p> {{ user.telephone }}</p>
+            </div>
+                </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4> Email : </h4>
+                </div>
+                <div class="acontent a1">
+                <p> {{ user.mail }}</p>
+                    </div>
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4> Ville de ratachement :</h4>
+                </div>
+                <div class="acontent a1">
+                <p> {{ user.site }}</p>
+                    </div>
+            </div>
 
-    <button class="button is-warning button is-medium"><a href="{{ path('user_index') }}">Retour</a></button>
+            </div>
+        <div class="a2"></div>
+        </div>
+
+    <br><br>
+    <div class="buttonretouruser ">
+
+    <button class="btn"><a href="{{ path('user_index') }}">Retour</a></button>
     </div>
 
 
