@@ -47,6 +47,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Ville', 'fas fa-map', Ville::class);
         yield MenuItem::linkToCrud('Site', 'fas fa-flag-checkered', Site::class);
+        yield MenuItem::linkToRoute('Retour Accueil', 'fas fa-tag', 'sortie_index');
 
     }
 }

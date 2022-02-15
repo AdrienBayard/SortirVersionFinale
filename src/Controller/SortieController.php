@@ -54,7 +54,7 @@ class SortieController extends AbstractController
             $lieu->setLongitude((float)$lieuRecupere);
             $sortie->setLieu($lieu);
             $lieu->setVille($ville);
-            $sortie->setSite($site);
+            //$sortie->setSite($site);
             $sortie->setEtat($etat);
            // $site->setNom("nantes");
            // $ville->setCodePostal("44000");
@@ -66,7 +66,7 @@ class SortieController extends AbstractController
             $entityManager-> persist($ville);
             $entityManager->persist($lieu);
             $entityManager->persist($sortie);
-            $entityManager->persist($site);
+            //$entityManager->persist($site);
             $entityManager->persist($etat);
             $entityManager->flush();
 
