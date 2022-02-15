@@ -51,7 +51,7 @@ img.logo {
 }
 
 .container {
-    height: 200px;
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,6 +107,10 @@ footer {
     align-items: center;
     padding-top: 20px;
 }
+.a5 {
+    max-width: 450px;
+}
+
 .aflex{
     display: flex;
 }

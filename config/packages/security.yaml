@@ -21,14 +21,16 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\AppAuthenticator
+            access_denied_handler: App\Security\AccessDeniedHandler
             logout:
                 path: app_logout
                 # where to redirect after logout
                 target: app_login
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 6048000 #10 semaines
+                lifetime: 604800 #1week in seconds
                 path: /
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
