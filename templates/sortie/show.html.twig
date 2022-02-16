@@ -43,7 +43,7 @@
                         <h4>Date et heure de la sortie:</h4>
                     </div>
                     <div class="acontent a1">
-                        <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i') : '' }}</p>
+                        <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y') : '' }} à {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('H:i') : '' }}</p>
                     </div>
                 </div>
 
@@ -61,7 +61,7 @@
                 <h4>Date limite d'inscription:</h4>
             </div>
             <div class="acontent a1">
-                <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y H:i') : '' }}</p>
+                <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }} à {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('H:i') : '' }}</p>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
                 <h4>Nombre de places: </h4>
             </div>
             <div class="acontent a1">
-                <p>{{ sortie.nbInscriptionMax }}</p>
+                <p>nbre en cours / {{ sortie.nbInscriptionMax }}</p>
             </div>
         </div>
 
@@ -80,6 +80,14 @@
             </div>
             <div class="acontent a1">
                 <p>{{ sortie.infosSortie }}</p>
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <h4>Organisateur:</h4>
+            </div>
+            <div class="acontent a1">
+                <p>{{ sortie.organisateur}}</p>
             </div>
         </div>
     </div>

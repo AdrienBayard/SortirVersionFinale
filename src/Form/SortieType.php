@@ -8,6 +8,7 @@ use App\Entity\Ville;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,7 +24,7 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription',DateTimeType::class, ["label"=> "Date limite d'inscription : "])
             ->add('nbInscriptionMax',null, ["label"=> "Nombre de places : "])
             ->add('duree', null, ["label"=> "Durée : "])
-            ->add('infosSortie',null, ["label"=> "Description et infos : "])
+            ->add('infosSortie',TextareaType::class, ['attr'=> ['class'=>'textAreaFix'], "label"=> "Description et infos : "])
 
             ->add('isPublished', null, ["label"=> "Publier la sortie : "])
         ;
