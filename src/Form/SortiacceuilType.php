@@ -56,7 +56,8 @@ class SortiacceuilType extends AbstractType
             'required' => false
         ]);
         // Les cases a cocher
-        $builder->add('organisateur', CheckboxType::class, [
+        $builder->add('organiser', CheckboxType::class, [
+            'mapped'=>false,
             'label' => 'Sorties dont je suis l\'organisateur'
             , 'required' => false
         ]);
