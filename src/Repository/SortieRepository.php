@@ -91,13 +91,25 @@ class SortieRepository extends ServiceEntityRepository
              ->setParameter('pseudo', $pseudo);
 
         }
-        if ($isArchived) {
+        if ($isAEteInscrit==1) {
+            $query->andWhere(':user NOT MEMBER OF sortie.aEteInscrit')
+                ->setParameter('user', $user);
+        }
+        if ($isNotAEteInscrit==1) {
+            $query->andWhere(':user MEMBER OF sortie.aEteInscrit')
+                ->setParameter('user', $user);
+        }
+
+        if ($isArchived==0) {
             $dateLimit = new DateTime('-30 day'); // On n'affiche jamais les sorties qui ont plus d'un mois
+            $query->andWhere('sortie.dateHeureDebut > :date_limit')
+                ->setParameter('date_limit', $dateLimit);
         } else {
             $dateLimit = new DateTime();
+            $query->andWhere('sortie.dateHeureDebut < :date_limit')
+                ->setParameter('date_limit', $dateLimit);
         }
-        $query->andWhere('sortie.dateHeureDebut > :date_limit')
-            ->setParameter('date_limit', $dateLimit);
+
         // Filtre search
         if ($search != null) {
             $query->andWhere('sortie.nom LIKE :search')
