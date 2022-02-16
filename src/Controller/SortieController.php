@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Entity\User;
 use App\Entity\Ville;
 use App\Form\AnnulerSortieType;
+use App\Form\SortiacceuilType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
@@ -28,7 +29,25 @@ class SortieController extends AbstractController
             'sorties' => $sortieRepository->findAll(),
         ]);
     }
+    #[Route('/indexfiltre', name: 'site_index_filtre', methods: ['GET','POST'])]
+    public function indexfiltre(Request $resquest, SortieRepository $sortieRepository): Response
+    {
+        {// creation du formulaire
+            $form = $this->createForm(SortiacceuilType::class);
+            // Il n'est pas mappé
+            $form->handleRequest($resquest);
 
+            if ($form->isSubmitted() ) {
+
+                // Requête recupére la liste d'event campus
+                $sorties = $sortieRepository->filter($this->getUser(), $form->get('nom')->getData(), $form->get('search')->getData(), $form->get('minDate')->getData(), $form->get('maxDate')->getData(), $form->get('organisateur')->getData(), $form->get('isAEteInscrit')->getData(), $form->get('isNotAEteInscrit')->getData(), $form->get('archived')->getData());
+
+                // On redirige vers la  vue
+                return $this->render('sortiacceuil/index.html.twig', ['sorties' => $sorties, 'form' => $form->createView()]);
+            }
+            return $this->render('sortiacceuil/index.html.twig', ['sorties' => $sortieRepository->displayWithoutFilter($this->getUser()), 'form' => $form->createView()]);
+        }
+    }
     #[Route('/new', name: 'sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
