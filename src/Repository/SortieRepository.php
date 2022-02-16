@@ -119,4 +119,27 @@ class SortieRepository extends ServiceEntityRepository
         $query->orderBy('sortie.dateLimiteInscription', 'ASC');
         return $query->getQuery()->getResult();
     }
+
+
+/*    public function findSortiePublicated($isPublished){
+        $qb = $this->createQueryBuilder("w");
+        $qb
+            ->andWhere("w.isPublished = true")
+            ->addOrderBy("w.dateHeureDebut", "ASC")
+            ;
+        $requete = $qb->getQuery();
+        return $requete->execute();
+    }*/
+
+        public function triSortieDate(){
+        $qb = $this->createQueryBuilder("w");
+        $qb
+            ->addOrderBy("w.dateHeureDebut", "ASC")
+            ;
+        $requete = $qb->getQuery();
+        return $requete->execute();
+    }
+
+
+
 }
