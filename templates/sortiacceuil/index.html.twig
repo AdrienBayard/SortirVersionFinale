@@ -1,20 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SortiacceuilController!{% endblock %}
+{% block title %}Main page{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div id="title" class="row align-center">
+        <h3>Filtrer les Sorties </h3>
+    </div>
+    {{ form_start(form) }}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="grid-container">
+        <div class="grid-x grid-margin-x">
+            <div class="cell small-12 medium-4 large-4  align-center-middle  menu-centered">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/dener/OneDrive/Documents/PhpStormSymfony/SortirVersionFinale/src/Controller/SortiacceuilController.php'|file_link(0) }}">src/Controller/SortiacceuilController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/dener/OneDrive/Documents/PhpStormSymfony/SortirVersionFinale/templates/sortiacceuil/index.html.twig'|file_link(0) }}">templates/sortiacceuil/index.html.twig</a></code></li>
-    </ul>
-</div>
+                {{ form_label(form.search) }}
+                {{ form_widget(form.search) }}
+                {{ form_label(form.nom) }}
+                {{ form_widget(form.nom) }}
+
+
+
+            </div>
+
+            <div class="cell small-12 medium-4 large-4  align-center-middle menu-centered">
+
+
+                {{ form_label(form.minDate) }}
+                {{ form_widget(form.minDate) }}
+                {{ form_label(form.maxDate) }}
+                {{ form_widget(form.maxDate) }}
+            </div>
+            <div class="cell small-12 medium-4  large-4  align-center-middle menu-centered">
+
+                {# ------- CASES A COCHER ------#}
+                {{ form_label(form.organisateur,"Sorties dont je suis l\'organisateur",{'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.organisateur) }}
+                {{ form_label(form.isAEteInscrit,"Sorties  auxquelles je suis inscrit",{'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.isAEteInscrit) }}
+                {{ form_label(form.isNotAEteInscrit,"Sorties auxquelles je ne suis pas inscrit",{'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.isNotAEteInscrit) }}
+                {{ form_label(form.archived,"Sorties passées",{'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.archived) }}
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="grid-container">
+        <div class="grid-x grid-margin-x">
+            <div class="align-center-middle text-center cell small-12 medium-12 large-12 ">
+                {#{{ form_widget(form.submit) }} #}
+                <button> Rechercher</button>
+                <table class="table">
+                    <thead>
+                    <tr>
+
+                        <th>Nom</th>
+                        <th>Date de la sortie</th>
+                        <th>cloture</th>
+                        <th>iscrits/places</th>
+                        <th>Etat</th>
+                        <th>inscrit</th>
+                        <th>Organisateur</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+
+            </div>
+
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+    <div class="grid-container">
+
+        <div class="grid-x grid-padding-x small-up-2 medium-up-3  align-center-middle">
+
+
+            <div class="grid-x grid-padding-x small-up-1 medium-up-2 large-up-3 ">
+
+                {% for sortie in sorties %}
+
+                    <div class="card-section cell ">
+
+                        <div class="card-section cell-block">
+                            <tr>
+                                <td> <a href="{{ path('sortie_index', {'id': sortie.id }) }}"><h4>{{ sortie.nom }}</h4></a></td>
+                                <td><p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</p></td>
+                                <td><p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</p></td>
+                                <td><p>nombre inscrit/{{ sortie.nbInscriptionMax }}</p></td>
+                                <td><p>{{ sortie.etat.libelle}}</p></td>
+                                <td><p>{{ sortie.lieu.rue }}</p></td>
+                                <td> <p class="a4"><a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">'inscrire</a></p>
+                                    <p class="a4"><a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a></p>
+                                    <p class="a4"><a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a></p>
+                                    <p class="a4"><a href="{{ path('sortie_delete', {'id': sortie.id}) }}">Annuler la sortie</a></p>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                {% else %}<h4>Aucune sortie prévue</h4>
+                {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}
