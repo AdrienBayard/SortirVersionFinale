@@ -5,10 +5,11 @@ namespace App\Repository;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\User;
+
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 
 /**
@@ -52,70 +53,39 @@ class SortieRepository extends ServiceEntityRepository
         ;
     }
     */
-
-
     public function displayWithoutFilter(?User $user)
     {
         $query = $this->createQueryBuilder('sortie');
         $query->leftJoin('sortie.etat', 's');
         // On retire les sortie enregistrés non publiés des autres users
-        $query->where('sortie.nom != :nom OR sortie.organisateur = :user')
-            ->setParameter('nom', 'Créée')
-            ->setParameter('user', $user);
+        $query->where('sortie.nom != :nom ')
+            ->setParameter('nom', 'En création');
+
         // On n'affiche pas les sorties passées
         $query->andWhere('sortie.dateHeureDebut > :dateLimiteInscription')
-   //         ->setParameter('dateLimiteInscription', new DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
-            ->setParameter('dateLimiteInscription', new DateTime(), Types::DATETIME_IMMUTABLE);
-
+            //         ->setParameter('dateLimiteInscription', new DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
+            ->setParameter('dateLimiteInscription', new DateTime());
         // Trier les résultats par date limite d'inscription
         $query->orderBy('sortie.dateLimiteInscription', 'ASC');
         return $query->getQuery()->getResult();
     }
-
-    public function filter(?User $user, ?Site $site, ?String $search, ?DateTime $minDate, ?DateTime $maxDate, $organiser, $isParticipant, $isNotParticipant, $isArchived)
+    public function filter(?User $user, ?Site $site, ?String $search, ?DateTime $minDate, ?DateTime $maxDate, $organiser, $isAEteInscrit, $isNotAEteInscrit, $isArchived)
     {
         $query = $this->createQueryBuilder('sortie');
         $query->leftJoin('sortie.etat', 's');
-        // Filtre campus
+        // Filtre site
         if ($site != null) {
             $query->innerJoin('sortie.site', 'site', 'WITH', 'site = :site')
                 ->setParameter('site', $site);
         }
-        $query->where('s.nom != :nom OR sortie.organisateur = :user')
-            ->setParameter('nom', 'Créée')
-            ->setParameter('user', $user);
+
         // Filtre date
         if ($minDate != null && $maxDate != null) {
             $query->andWhere($query->expr()->between('sortie.dateHeureDebut', ':date_from', ':date_to'))
-                ->setParameter('date_from', $minDate,Types::DATETIME_IMMUTABLE)
-                    ->setParameter('date_to', $maxDate, Types::DATETIME_IMMUTABLE);
+                ->setParameter('date_from', $minDate)
+                ->setParameter('date_to', $maxDate);
         }
-        // Filtres checkboxes
-        if (!$organiser) {
-            $query->andWhere('sortie.organisateur != :user')
-                ->setParameter('user', $user);
-        }
-        if (!$isParticipant) {
-            $query->andWhere(':user NOT MEMBER OF sortie.aEteInscrit')
-                ->setParameter('user', $user);
-        }
-        if (!$isNotParticipant) {
-            $query->andWhere(':user MEMBER OF sortie.aEteInscrit')
-                ->setParameter('user', $user);
-        }
-        if (!$isNotParticipant && $organiser) {
-            $query->andWhere(':user MEMBER OF sortie.aEteInscrit')
-                ->setParameter('user', $user);
-            $query->orWhere('sortie.organisateur = :user')
-                ->setParameter('user', $user);
-        }
-        if ($isArchived) {
-            $dateLimit = new DateTime('-30 day'); // On n'affiche jamais les sorties qui ont plus d'un mois
-        } else {
-            $dateLimit = new DateTime();
-        }
-        $query->andWhere('sortie.dateHeureDebut > :date_limit')
-            ->setParameter('date_limit', $dateLimit, Types::DATETIME_IMMUTABLE);
+
         // Filtre search
         if ($search != null) {
             $query->andWhere('sortie.nom LIKE :search')
@@ -125,7 +95,4 @@ class SortieRepository extends ServiceEntityRepository
         $query->orderBy('sortie.dateLimiteInscription', 'ASC');
         return $query->getQuery()->getResult();
     }
-
-
-
 }
