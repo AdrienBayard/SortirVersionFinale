@@ -69,7 +69,7 @@ class SortieRepository extends ServiceEntityRepository
         $query->orderBy('sortie.dateLimiteInscription', 'ASC');
         return $query->getQuery()->getResult();
     }
-    public function filter(?User $user, ?Site $site, ?String $search, ?DateTime $minDate, ?DateTime $maxDate, $organiser, $isAEteInscrit, $isNotAEteInscrit, $isArchived)
+    public function filter($pseudo,?User $user, ?Site $site, ?String $search, ?DateTime $minDate, ?DateTime $maxDate,  $isorganiser, $isAEteInscrit, $isNotAEteInscrit, $isArchived)
     {
         $query = $this->createQueryBuilder('sortie');
         $query->leftJoin('sortie.etat', 's');
@@ -84,6 +84,12 @@ class SortieRepository extends ServiceEntityRepository
             $query->andWhere($query->expr()->between('sortie.dateHeureDebut', ':date_from', ':date_to'))
                 ->setParameter('date_from', $minDate)
                 ->setParameter('date_to', $maxDate);
+        }
+        // Filtres checkboxes
+        if ($isorganiser==1) {
+            $query->andWhere('sortie.organisateur = :pseudo')
+             ->setParameter('pseudo', $pseudo);
+
         }
         if ($isArchived) {
             $dateLimit = new DateTime('-30 day'); // On n'affiche jamais les sorties qui ont plus d'un mois

@@ -40,8 +40,8 @@ class SortieController extends AbstractController
             if ($form->isSubmitted() ) {
 
                 // Requête recupére la liste d'event campus
-                $sorties = $sortieRepository->filter($this->getUser(), $form->get('nom')->getData(), $form->get('search')->getData(), $form->get('minDate')->getData(), $form->get('maxDate')->getData(), $form->get('organisateur')->getData(), $form->get('isAEteInscrit')->getData(), $form->get('isNotAEteInscrit')->getData(), $form->get('archived')->getData());
-
+                $sorties = $sortieRepository->filter($this->getUser()->getUserIdentifier(),$this->getUser(), $form->get('nom')->getData(), $form->get('search')->getData(), $form->get('minDate')->getData(), $form->get('maxDate')->getData(), $form->get('organiser')->getData(), $form->get('isAEteInscrit')->getData(), $form->get('isNotAEteInscrit')->getData(), $form->get('archived')->getData());
+dump($this->getUser()->getUserIdentifier());
                 // On redirige vers la  vue
                 return $this->render('sortiacceuil/index.html.twig', ['sorties' => $sorties, 'form' => $form->createView()]);
             }
