@@ -98,6 +98,10 @@ li{
     color: red;
 }
 
+.flash{
+    color: red;
+    font-weight: 700;
+}
 
 .adefilement{
     height: 500px;

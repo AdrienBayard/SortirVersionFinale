@@ -33,23 +33,21 @@
                     <li><a href="{{ path('app_login') }}">Se connecter</a></li>
                 {% endif %}
                 {% if app.user %}
-                    <li>
-                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                    </li>
+                    <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
                 {% endif %}
             </ul>
         </nav>
 
     </header>
 
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+
         {% block body %}
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="flash-{{ label }}">
-                {{ message }}
-                    </div>
-            {% endfor %}
-            {% endfor %}
+
 
            {% endblock %}
 
