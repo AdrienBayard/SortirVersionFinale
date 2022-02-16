@@ -126,15 +126,24 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'sortie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
+        $organisateur = new Sortie();
+        $organisateur->getOrganisateur($this->getParameter($sortie));
+        $editeur = new Sortie();
+        $editeur->setOrganisateur($this->getUser()->getUserIdentifier());
 
-        if ($form->isSubmitted() && $form->isValid()) {
+
+        if( $editeur === $organisateur)
+        {
+            $form = $this->createForm(SortieType::class, $sortie);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->renderForm('sortie/edit.html.twig', [
