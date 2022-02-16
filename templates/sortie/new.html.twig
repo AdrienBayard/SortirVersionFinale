@@ -12,55 +12,125 @@
     <h1>Créer une sortie</h1>
     </div>
 
+<div class="aflex">
+    <div class="a3"></div>
     <div class="abox a1">
-    {{ form_start(form) }}
-
-    <div class="containerFormulaire">
-  {#  {{ include('sortie/_form.html.twig') }}#}
-    <div class="colonneGauche">
-        {{ form_row(form.nom) }}
-        {{ form_row(form.dateHeureDebut) }}
-        {{ form_row(form.dateLimiteInscription) }}
-        {{ form_row(form.nbInscriptionMax) }}
-        {{ form_row(form.duree) }}
-        {{ form_row(form.infosSortie) }}
-        {{ form_row(form.isPublished) }}
+        {{ form_start(form) }}
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.nom) }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.dateHeureDebut) }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.dateLimiteInscription) }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.nbInscriptionMax) }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.duree) }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.infosSortie) }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.isPublished) }}
+            </div>
+        </div>
     </div>
 
+    <div class="a3"></div>
 
-
-    <div class="colonneDroite">
-        <label for="{{field_name(form.nom)}}"> Site organisateur : </label>
-        {{ app.user.site }}
-   <br><label for="ville">Ville : </label>
-        <input name="ville" id="ville" placeholder="Ville"><br>
-        <br><label for="lieu">Lieu : </label>
-        <input name="lieu" id="lieu" placeholder="lieu"><br>
-        <br><label for="rue">Rue : </label>
-        <input name="rue" id="rue" placeholder="rue"><br>
-
-        <label for="code">Code postal : </label>
-      <input name="cp" id="code" placeholder="Code postal">
-    <ul>
-        <li data-vicopo="#ville, #code" data-vicopo-click='{"#code": "code", "#ville": "ville"}'><strong data-vicopo-code-postal></strong><span data-vicopo-ville></span></li>
-    </ul>
-        <br><label for="latitude">Latitude : </label>
-        <input name="latitude" id="latitude" placeholder="latitude"><br>
-        <br><label for="longitude">Longitude : </label>
-        <input name="longitude" id="longitude" placeholder="longitude"><br>
+    <div class="abox a2">
+        <div class="blist">
+            <div class="acontent a1">
+                <h4>Site organisateur :</h4>
+            </div>
+            <div class="acontent a1">
+                <p>     {{ app.user.site }}</p>
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="ville">Ville : </label>
+            </div>
+            <div class="acontent a1">
+                <input name="ville" id="ville" placeholder="Ville">
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="lieu">Lieu : </label>
+            </div>
+            <div class="acontent a1">
+                <input name="lieu" id="lieu" placeholder="lieu">
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="rue">Rue : </label>
+            </div>
+            <div class="acontent a1">
+                <input name="rue" id="rue" placeholder="rue">
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="code">Code postal : </label>
+            </div>
+            <div class="acontent a1">
+                <input name="cp" id="code" placeholder="Code postal">
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="latitude">Latitude : </label>
+            </div>
+            <div class="acontent a1">
+                <input name="latitude" id="latitude" placeholder="latitude">
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="longitude">Longitude : </label>
+            </div>
+            <div class="acontent a1">
+                <input name="longitude" id="longitude" placeholder="longitude">
+            </div>
+        </div>
     </div>
-
-    </div>
-
+    <div class="a3"></div>
+</div>
 
     <div class="btnAlignes">
         <button class="btn">Enregistrer</button>
         <button class="btnAnnuler"><a  href="{{ path('sortie_index') }}" >Annuler</a></button>
     </div>
 
-{{ form_end(form) }}
-    </div>
+    {{ form_end(form) }}
 
+
+{#  {{ include('sortie/_form.html.twig') }}#}
+    {#
+<ul>
+ <li data-vicopo="#ville, #code" data-vicopo-click='{"#code": "code", "#ville": "ville"}'><strong data-vicopo-code-postal></strong><span data-vicopo-ville></span></li>
+</ul>
+
+#}
 
 {% endblock %}
 
