@@ -85,7 +85,13 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('date_from', $minDate)
                 ->setParameter('date_to', $maxDate);
         }
-
+        if ($isArchived) {
+            $dateLimit = new DateTime('-30 day'); // On n'affiche jamais les sorties qui ont plus d'un mois
+        } else {
+            $dateLimit = new DateTime();
+        }
+        $query->andWhere('sortie.dateHeureDebut > :date_limit')
+            ->setParameter('date_limit', $dateLimit);
         // Filtre search
         if ($search != null) {
             $query->andWhere('sortie.nom LIKE :search')
