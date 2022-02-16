@@ -25,13 +25,13 @@
             <tr>
                 <td>{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i') : '' }}</td>
+                <td>{{ sortie.duree }} minutes</td>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y H:i') : '' }}</td>
                 <td>{{ sortie.nbInscriptionMax }}</td>
                 <td>{{ sortie.infosSortie }}</td>
                 <td>{{ sortie.etat }}</td>
-                <td>{{ sortie.organisateur ? 'Yes' : 'No' }}</td>
+                <td>{{ sortie.organisateur }}</td>
                 <td>
                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                     <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
