@@ -126,21 +126,15 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'sortie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, UserRepository $userRepository, $id): Response
+    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        // permet de récuperer le pseudo de l'organisateur dans la sortie
-        $organisateur = $entityManager->getRepository(Sortie::class)->find($id);
-        $organisateurRecupere=$organisateur->getOrganisateur();
-        dump($organisateurRecupere);
-        $sorties = $sortie->getAEteInscrit();
+        $organisateur = new Sortie();
+        $organisateur->getOrganisateur($this->getParameter($sortie));
+        $editeur = new Sortie();
+        $editeur->setOrganisateur($this->getUser()->getUserIdentifier());
 
 
-        // permet de récuperer le pseudo de la personne identifiée sur la page
-        $editeur=$this->getUser()->getUserIdentifier();
-        dump($editeur);
-
-
-        if( $editeur == $organisateurRecupere)
+        if( $editeur === $organisateur)
         {
             $form = $this->createForm(SortieType::class, $sortie);
             $form->handleRequest($request);
@@ -150,18 +144,12 @@ class SortieController extends AbstractController
 
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
             }
+        }
 
-
-            return $this->renderForm('sortie/edit.html.twig', [
+        return $this->renderForm('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
         ]);
-        }
-        else{
-            $this->addFlash('warning', "Vous n'êtes pas l'organisateur de cet évènement!");
-            return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
-            ]);
-        }
     }
 
     #[Route('/{id}', name: 'sortie_delete', methods: ['POST'])]
