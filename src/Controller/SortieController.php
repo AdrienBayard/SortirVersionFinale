@@ -84,8 +84,8 @@ class SortieController extends AbstractController
             $sortie->setEtat($etat);
             //$sortie->setOrganisateur($idOrganisateur);
 
-           // $site->setNom("nantes");
-           // $ville->setCodePostal("44000");
+            // $site->setNom("nantes");
+            // $ville->setCodePostal("44000");
             $etat->setLibelle("Créée");
             $villeRecupere= $request->request->get("ville", "Nantes");
             $ville->setNom($villeRecupere);
@@ -112,13 +112,13 @@ class SortieController extends AbstractController
     public function show(Sortie $sortie): Response
     {
 
-       $sorties = $sortie->getAEteInscrit();
+        $sorties = $sortie->getAEteInscrit();
 
         dump($sorties);
 
-/*        return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
-        ]);*/
+        /*        return $this->render('sortie/index.html.twig', [
+                    'sorties' => $sortieRepository->findAll(),
+                ]);*/
 
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie, 'sorties' => $sorties
@@ -126,30 +126,42 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'sortie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, UserRepository $userRepository, $id): Response
     {
-        $organisateur = new Sortie();
-        $organisateur->getOrganisateur($this->getParameter($sortie));
-        $editeur = new Sortie();
-        $editeur->setOrganisateur($this->getUser()->getUserIdentifier());
+        // permet de récuperer le pseudo de l'organisateur dans la sortie
+        $organisateur = $entityManager->getRepository(Sortie::class)->find($id);
+        $organisateurRecupere=$organisateur->getOrganisateur();
+        dump($organisateurRecupere);
+        $sorties = $sortie->getAEteInscrit();
 
 
-        if( $editeur === $organisateur)
+        // permet de récuperer le pseudo de la personne identifiée sur la page
+        $editeur=$this->getUser()->getUserIdentifier();
+        dump($editeur);
+
+
+        if( $editeur == $organisateurRecupere)
         {
             $form = $this->createForm(SortieType::class, $sortie);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+                $entityManager->flush();
 
-            return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
             }
-        }
 
-        return $this->renderForm('sortie/edit.html.twig', [
-            'sortie' => $sortie,
-            'form' => $form,
-        ]);
+
+            return $this->renderForm('sortie/edit.html.twig', [
+                'sortie' => $sortie,
+                'form' => $form,
+            ]);
+        }
+        else{
+            $this->addFlash('warning', "Vous n'êtes pas l'organisateur de cet évènement!");
+            return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
+            ]);
+        }
     }
 
     #[Route('/{id}', name: 'sortie_delete', methods: ['POST'])]
@@ -173,7 +185,7 @@ class SortieController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'L\'inscription a été faite !');
 
-       // return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
+        // return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
         return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
 
 
@@ -203,9 +215,9 @@ class SortieController extends AbstractController
         $etat=new Etat();
 
         if ($form->isSubmitted() && $form->isValid()) {
-          $sortieRecuperee = $request->request->get("motif", "");
+            $sortieRecuperee = $request->request->get("motif", "");
             $sortie->setMotif($sortieRecuperee);
-           $etat->setLibelle("Annulée");
+            $etat->setLibelle("Annulée");
             $sortie->setEtat($etat);
             $entityManager->persist($sortie);
             $entityManager->flush();
