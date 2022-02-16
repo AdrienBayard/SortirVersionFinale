@@ -43,7 +43,7 @@ class Sortie
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $infosSortie;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $organisateur;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sortie')]
@@ -159,12 +159,12 @@ class Sortie
     }
 
 
-    public function getOrganisateur(): ?int
+    public function getOrganisateur(): ?string
     {
         return $this->organisateur;
     }
 
-    public function setOrganisateur(int $organisateur): self
+    public function setOrganisateur(?string $organisateur): self
     {
         $this->organisateur = $organisateur;
 
@@ -257,6 +257,8 @@ class Sortie
 
         return $this;
     }
+
+
 
 
 }

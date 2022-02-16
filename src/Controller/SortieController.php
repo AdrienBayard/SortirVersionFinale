@@ -39,8 +39,10 @@ class SortieController extends AbstractController
         $site=new Site();
         $etat=new Etat();
 
-        $organisateur = $userRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()], []);
-        $idOrganisateur=$organisateur->getId();
+        //$organisateur = $userRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()], []);
+        //$idOrganisateur=$organisateur->getId();
+
+        $sortie->setOrganisateur($this->getUser()->getUserIdentifier());
 
         $sortie->setSite($this->getUser()->getSite());
         $form = $this->createForm(SortieType::class, $sortie);
@@ -48,7 +50,6 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setDateHeureDebut(new \DateTime());
             $sortie->getDateLimiteInscription(new \DateTime());
-            $sortie->setOrganisateur(1);
             $lieuRecupere = $request->request->get("lieu", "");
             $lieu->setNom($lieuRecupere);
             $lieuRecupere = $request->request->get("rue", "");
@@ -60,8 +61,9 @@ class SortieController extends AbstractController
             $sortie->setLieu($lieu);
             $lieu->setVille($ville);
             //$sortie->setSite($site);
+            //$sortie->setEtat(1);
             $sortie->setEtat($etat);
-            $sortie->setOrganisateur($idOrganisateur);
+            //$sortie->setOrganisateur($idOrganisateur);
 
            // $site->setNom("nantes");
            // $ville->setCodePostal("44000");
@@ -136,12 +138,8 @@ class SortieController extends AbstractController
     #[Route('/inscription/{id}', name: 'sortie_inscription')]
     public function add_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository){
 
-
-
         $sortie = $em->getRepository(Sortie::class)->find($id);
         $sortie->addAEteInscrit($this->getUser());
-
-
 
         $em->persist($sortie);
         $em->flush();
