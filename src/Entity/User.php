@@ -53,6 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $telephone;
 
+    #[Assert\Email(message:"Votre email n'est pas valide!")]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $mail;
 
