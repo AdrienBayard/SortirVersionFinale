@@ -11,33 +11,57 @@
         <h1>Annuler une sortie</h1>
     </div>
 
+<div class="aflex">
+    <div class="a3"></div>
+    <div class="abox a1">
+        {{ form_start(form) }}
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.nom) }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                {{ form_row(form.dateHeureDebut) }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="site">Site organisateur : </label>
+            </div>
+            <div class="acontent a1">
+                {{ sortie.site.nom }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="lieu">Lieu : </label>
+            </div>
+            <div class="acontent a1">
+                {{ sortie.lieu.nom }}
+            </div>
+        </div>
+        <div class="blist">
+            <div class="acontent a1">
+                <label for="motif">Motif : </label>
+            </div>
+            <div class="acontent a1">
+                <label for="motifAnnul"><textarea name="motif" id="motifAnnul" cols="60" rows="5"></textarea></label>
+            </div>
+        </div>
 
-<div class="abox a1">
-
-    {{ form_start(form) }}
-
-    <div class="containerFormulaire">
-        <div class="colonneGauche">
-            {{ form_row(form.nom) }}
-            {{ form_row(form.dateHeureDebut) }}
-            <p>Site organisateur : {{ sortie.site.nom }}</p>
-            <p>Lieu : {{ sortie.lieu.nom }}</p>
-            <p>Motif :</p>
-            <textarea name="motif" id="motifAnnul" cols="30" rows="10"></textarea>
-
-
-
-
+    </div>
+    <div class="a3"></div>
+</div>
     <div class="btnAlignes">
         <button class="btn">Confirmer l'annulation</button>
 
         <button class="btnRetour"><a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Retour</a></button>
 
     </div>
-        </div>
+
     {{ form_end(form) }}
-</div>
-</div>
+
 {% endblock %}
 
 
