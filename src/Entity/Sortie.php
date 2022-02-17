@@ -67,6 +67,9 @@ class Sortie
     #[ORM\Column(type: 'string', length: 500, nullable: true)]
     private $motif;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $compteur;
+
 
 
 
@@ -254,6 +257,18 @@ class Sortie
     public function setMotif(string $motif): self
     {
         $this->motif = $motif;
+
+        return $this;
+    }
+
+    public function getCompteur(): ?int
+    {
+        return $this->compteur;
+    }
+
+    public function setCompteur(?int $compteur): self
+    {
+        $this->compteur = $compteur;
 
         return $this;
     }
