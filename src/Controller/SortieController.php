@@ -18,11 +18,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'sortie_index', methods: ['GET'])]
+/*    #[Route('/', name: 'sortie_index', methods: ['GET'])]
     public function index(SortieRepository $sortieRepository): Response
     {
         // Affichage de toutes les sorties
@@ -39,16 +40,14 @@ class SortieController extends AbstractController
         ]);
         */
 
-        // Tri de l'affichage des sorties par date la plus proche
+   /*     // Tri de l'affichage des sorties par date la plus proche
         $sortieDate = $sortieRepository->triSortieDate();
         return $this->render('sortie/index.html.twig',
             ['sorties' => $sortieDate
             ]);
+    }*/
 
-
-
-    }
-    #[Route('/indexfiltre', name: 'site_index_filtre', methods: ['GET','POST'])]
+    #[Route('/', name: 'sortie_index', methods: ['GET','POST'])]
     public function indexfiltre(Request $resquest, SortieRepository $sortieRepository): Response
     {
         {// creation du formulaire
@@ -194,29 +193,41 @@ dump($this->getUser()->getUserIdentifier());
     }
 
     #[Route('/inscription/{id}', name: 'sortie_inscription')]
-    public function add_participant(EntityManagerInterface $entityManager, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository, UserRepository $userRepository, User $user){
+    public function add_participant(
+        EntityManagerInterface $entityManager,
+        Request $request,
+        Sortie $sortie,
+        int $id,
+        SortieRepository $sortieRepository,
+
+        UserRepository $userRepository
+    ){
 
         // permet de récuperer le pseudo de la personne identifiée sur la page
         $nouvelInscrit=$this->getUser()->getUserIdentifier();
-        dump($nouvelInscrit);
-      
+
+
 //zakfinal
+        $dateDuJour= new \DateTime('now');
+
+        dump($dateDuJour);
         //gestion de l'inscription et désinscription
         if ($sortie->getAEteInscrit()->contains($this->getUser())){
             $sorties = $sortie->getAEteInscrit();
             $this->addFlash('warning', "Vous êtes déjà inscrit à cet évènement!");
             return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
             ]);
-        }else if ($sortie->getAEteInscrit()->count()>=$sortie->getNbInscriptionMax()) {
+
+        }else if ($sortie->getAEteInscrit()->count()>=$sortie->getNbInscriptionMax() || $sortie->getDateLimiteInscription() < $dateDuJour) {
             $sorties = $sortie->getAEteInscrit();
-            $this->addFlash('warning', "le nombre de paticipant maximum est depassé");
+            $this->addFlash('warning', "le nombre de paticipant maximum est depassé ou la date limite d'inscription");
             return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
             ]);
         } else
         {
 
 
-            $sortie = $em->getRepository(Sortie::class)->find($id);
+            $sortie = $entityManager->getRepository(Sortie::class)->find($id);
 /*main
 
         // permet de récuperer le pseudo de l'organisateur dans la sortie
@@ -226,7 +237,6 @@ dump($this->getUser()->getUserIdentifier());
         //dump($inscritRecupere);
 
 
-        //$sorties = $sortie->getAEteInscrit();
 
 
         if($inscritRecupere != $nouvelInscrit){
@@ -238,8 +248,8 @@ dump($this->getUser()->getUserIdentifier());
             $compteurInscrit= $compteurInscrit+1;
             $sortie->setCompteur($compteurInscrit);
 
-            $em->persist($sortie);
-            $em->flush();
+            $entityManager->persist($sortie);
+            $entityManager->flush();
             $this->addFlash('success', 'L\'inscription a été faite !');
 
 /*main
@@ -252,6 +262,7 @@ dump($this->getUser()->getUserIdentifier());
 
 }
         else{
+            $sorties = $sortie->getAEteInscrit();
             $this->addFlash('warning', "Vous êtes déjà inscrit à cet évènement!");
             return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
             ]);
@@ -268,14 +279,36 @@ dump($this->getUser()->getUserIdentifier());
     #[Route('/desister/{id}', name: 'sortie_desister')]
     public function desister_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository){
 
-        $sortie = $em->getRepository(Sortie::class)->find($id);
-        $sortie->removeAEteInscrit($this->getUser());
 
-        $em->persist($sortie);
-        $em->flush();
-        $this->addFlash('success', 'Tu as été désinscrit !');
-        //return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
-        return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
+        if ($sortie->getAEteInscrit()->contains($this->getUser())){
+
+            $sorties = $sortie->getAEteInscrit();
+            $sortie = $em->getRepository(Sortie::class)->find($id);
+            $sortie->removeAEteInscrit($this->getUser());
+
+            $compteurInscrit=$sortie->getCompteur();
+            $compteurInscrit= $compteurInscrit-1;
+            $sortie->setCompteur($compteurInscrit);
+
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success', 'Tu as été désinscrit !');
+            //return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
+            return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
+
+
+
+        }else{
+            $sorties = $sortie->getAEteInscrit();
+            $this->addFlash('warning', "Vous n'êtes pas inscrit à cet évènement!");
+            return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
+            ]);
+
+        }
+
+
+
+
 
     }
 
