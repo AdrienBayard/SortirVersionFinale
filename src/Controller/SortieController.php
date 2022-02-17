@@ -25,9 +25,28 @@ class SortieController extends AbstractController
     #[Route('/', name: 'sortie_index', methods: ['GET'])]
     public function index(SortieRepository $sortieRepository): Response
     {
-        return $this->render('sortie/index.html.twig', [
+        // Affichage de toutes les sorties
+        /*        return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
+        ]);*/
+
+
+        // Tri de l'affichage des sorties par date et sortie publiée
+        /* $sortiePublicated = $sortieRepository->findSortiePublicated("1");
+
+        return $this->render('sortie/index.html.twig',
+            ['sorties' => $sortiePublicated
         ]);
+        */
+
+        // Tri de l'affichage des sorties par date la plus proche
+        $sortieDate = $sortieRepository->triSortieDate();
+        return $this->render('sortie/index.html.twig',
+            ['sorties' => $sortieDate
+            ]);
+
+
+
     }
     #[Route('/indexfiltre', name: 'site_index_filtre', methods: ['GET','POST'])]
     public function indexfiltre(Request $resquest, SortieRepository $sortieRepository): Response
@@ -134,7 +153,6 @@ dump($this->getUser()->getUserIdentifier());
         dump($organisateurRecupere);
         $sorties = $sortie->getAEteInscrit();
 
-
         // permet de récuperer le pseudo de la personne identifiée sur la page
         $editeur=$this->getUser()->getUserIdentifier();
         dump($editeur);
@@ -176,11 +194,13 @@ dump($this->getUser()->getUserIdentifier());
     }
 
     #[Route('/inscription/{id}', name: 'sortie_inscription')]
-    public function add_participant(EntityManagerInterface $em, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository){
+    public function add_participant(EntityManagerInterface $entityManager, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository, UserRepository $userRepository, User $user){
 
         // permet de récuperer le pseudo de la personne identifiée sur la page
         $nouvelInscrit=$this->getUser()->getUserIdentifier();
         dump($nouvelInscrit);
+      
+//zakfinal
         //gestion de l'inscription et désinscription
         if ($sortie->getAEteInscrit()->contains($this->getUser())){
             $sorties = $sortie->getAEteInscrit();
@@ -197,13 +217,46 @@ dump($this->getUser()->getUserIdentifier());
 
 
             $sortie = $em->getRepository(Sortie::class)->find($id);
+/*main
+
+        // permet de récuperer le pseudo de l'organisateur dans la sortie
+
+       // $inscrit = $entityManager->getRepository(Sortie::class)->find($id);
+        //$inscritRecupere=$inscrit->getOrganisateur();
+        //dump($inscritRecupere);
+
+
+        //$sorties = $sortie->getAEteInscrit();
+
+
+        if($inscritRecupere != $nouvelInscrit){
+
+            $sortie = $entityManager->getRepository(Sortie::class)->find($id);
+*/
             $sortie->addAEteInscrit($this->getUser());
             $compteurInscrit=$sortie->getCompteur();
             $compteurInscrit= $compteurInscrit+1;
             $sortie->setCompteur($compteurInscrit);
+
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success', 'L\'inscription a été faite !');
+
+/*main
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success', 'Tu es maintenant inscrit !');
+
+            // return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
+            return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
+
+}
+        else{
+            $this->addFlash('warning', "Vous êtes déjà inscrit à cet évènement!");
+            return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
+            ]);
+        }
+*/
 
             // return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
             return $this->redirectToRoute('sortie_show', ['id' => $sortie->getId()]);
