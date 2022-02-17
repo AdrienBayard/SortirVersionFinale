@@ -194,33 +194,54 @@ dump($this->getUser()->getUserIdentifier());
     }
 
     #[Route('/inscription/{id}', name: 'sortie_inscription')]
-    public function add_participant(EntityManagerInterface $entityManager, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository, UserRepository $userRepository){
+    public function add_participant(EntityManagerInterface $entityManager, Request $request, Sortie $sortie,int $id, SortieRepository $sortieRepository, UserRepository $userRepository, User $user){
 
         // permet de récuperer le pseudo de la personne identifiée sur la page
-        //$nouvelInscrit=$this->getUser()->getUserIdentifier();
-        //dump($nouvelInscrit);
+        $nouvelInscrit=$this->getUser()->getUserIdentifier();
+        dump($nouvelInscrit);
 
+//zakfinal
         //gestion de l'inscription et désinscription
+        if ($sortie->getAEteInscrit()->contains($this->getUser())){
+            $sorties = $sortie->getAEteInscrit();
+            $this->addFlash('warning', "Vous êtes déjà inscrit à cet évènement!");
+            return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
+            ]);
+        }else if ($sortie->getAEteInscrit()->count()>=$sortie->getNbInscriptionMax()) {
+            $sorties = $sortie->getAEteInscrit();
+            $this->addFlash('warning', "le nombre de paticipant maximum est depassé");
+            return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
+            ]);
+        } else
+        {
 
-/*        if ($event->getParticipants()->contains($this->getUser())) {
-            $this->getUser()->removeSubscribedEvent($event);
-        } else {
-            //contrôle du nb max de participants
-            if ($event->getParticipants()->count()<$event->getNbMax()) {
-                $this->getUser()->addSubscribedEvent($event);
-            } else {
-                $this->addFlash('error', "Inscription impossible, le nb de participants max est atteint");
-            }*/
-
-
-        //if($inscritRecupere != $nouvelInscrit){
 
             $sortie = $entityManager->getRepository(Sortie::class)->find($id);
-            $sortie->addAEteInscrit($this->getUser());
-/*           $compteurInscrit=$sortie->getCompteur();
-            $compteurInscrit= $compteurInscrit+1;
-            $sortie->setCompteur($compteurInscrit);*/
+/*main
 
+        // permet de récuperer le pseudo de l'organisateur dans la sortie
+
+       // $inscrit = $entityManager->getRepository(Sortie::class)->find($id);
+        //$inscritRecupere=$inscrit->getOrganisateur();
+        //dump($inscritRecupere);
+
+
+
+
+        if($inscritRecupere != $nouvelInscrit){
+
+            $sortie = $entityManager->getRepository(Sortie::class)->find($id);
+*/
+            $sortie->addAEteInscrit($this->getUser());
+            $compteurInscrit=$sortie->getCompteur();
+            $compteurInscrit= $compteurInscrit+1;
+            $sortie->setCompteur($compteurInscrit);
+
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success', 'L\'inscription a été faite !');
+
+/*main
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success', 'Tu es maintenant inscrit !');
@@ -228,13 +249,19 @@ dump($this->getUser()->getUserIdentifier());
             // return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
             return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
 
-/*}
+}
         else{
             $sorties = $sortie->getAEteInscrit();
             $this->addFlash('warning', "Vous êtes déjà inscrit à cet évènement!");
             return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
             ]);
-        }*/
+        }
+*/
+
+            // return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
+            return $this->redirectToRoute('sortie_show', ['id' => $sortie->getId()]);
+        }
+
 
     }
 
