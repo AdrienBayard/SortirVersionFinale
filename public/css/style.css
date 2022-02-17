@@ -4,6 +4,9 @@ nav{
     justify-content: space-between;
     border-bottom: 1px solid #FCFF4A;
 }
+.pseudoAccueil{
+    text-align: center;
+}
 
 h1 {
     text-align: center;
@@ -123,6 +126,7 @@ li{
     justify-content: center;
     align-items: center;
     padding-top: 20px;
+
 }
 .a5 {
     max-width: 450px;
@@ -133,9 +137,17 @@ li{
     justify-content: center;
     align-items: center;
 }
+.a7{
+    flex:3 8 auto;
+}
+.a8{
+    font-size: 12px;
+    display: inline;
+}
 
 .aflex{
     display: flex;
+    margin: 20px;
 }
 
 .abox{
@@ -231,3 +243,8 @@ li{
 {
     color: #333;
 }
+
+table {
+    width: 100%;
+}
+/*RESPONSIVE*/
