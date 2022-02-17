@@ -7,147 +7,124 @@
 {% endblock %}
 
 {% block body %}
-<div class="pseudoAccueil">
-    <p class="">Bonjour {{ app.user.pseudo }} !</p>
-    <p class="">Nous sommes le :  {{ "now" | date("d/m/Y") }} </p>
-</div>
-<div class="aflex">
-    <div class="a3"></div>
-    <div class="abox a1">
-        <h2><strong>Filtrer les sorties</strong></h2>
-    {{ form_start(form) }}
-        <div class="blist">
-            <div class="acontent a1">
-                <h4>Site:</h4>
-            </div>
-            <div class="acontent a1">
-
-          {#    {{ form_label(form.nom) }}#}
-                {{ form_widget(form.nom) }}
-            </div>
-        </div>
-        <div class="blist">
-                    <div class="acontent a1">
-                        <h4>Le nom de la sortie contient : </h4>
-                    </div>
-                    <div class="acontent a1">
-              {#  {{ form_label(form.search) }}#}
-                {{ form_widget(form.search) }}
-                    </div>
-        </div>
-        <div class="blist">
-            <div class="acontent a1">
-                <h4>Entre le : </h4>
-            </div>
-            <div class="acontent a1">
-         {#       {{ form_label(form.minDate) }}#}
-                {{ form_widget(form.minDate) }}
-            </div>
-            <div class="acontent a1">
-                <h4>et le : </h4>
-            </div>
-            <div class="acontent a1">
-              {#  {{ form_label(form.maxDate) }}#}
-                {{ form_widget(form.maxDate) }}
-            </div>
-        </div>
+    <div class="pseudoAccueil">
+        <p class="">Bonjour {{ app.user.pseudo }} !</p>
+        <p class="">Nous sommes le :  {{ "now" | date("d/m/Y") }} </p>
     </div>
-
-    <div class="a3">
-        <div class="btnAlignes">
-            <button class="btn">Rechercher</button>
+    <div class="aflex">
+        <div class="a3"></div>
+        <div class="abox a1">
+            <h2><strong>Filtrer les sorties</strong></h2>
+            {{ form_start(form) }}
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Site:</h4>
+                </div>
+                <div class="acontent a1">
+                    {#    {{ form_label(form.nom) }}#}
+                    {{ form_widget(form.nom) }}
+                </div>
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Le nom de la sortie contient : </h4>
+                </div>
+                <div class="acontent a1">
+                    {#  {{ form_label(form.search) }}#}
+                    {{ form_widget(form.search) }}
+                </div>
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Entre le : </h4>
+                </div>
+                <div class="acontent a1">
+                    {#       {{ form_label(form.minDate) }}#}
+                    {{ form_widget(form.minDate) }}
+                </div>
+                <div class="acontent a1">
+                    <h4>et le : </h4>
+                </div>
+                <div class="acontent a1">
+                    {#  {{ form_label(form.maxDate) }}#}
+                    {{ form_widget(form.maxDate) }}
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="a3">
+            <div class="btnAlignes">
+                <button class="btn">Rechercher</button>
+            </div>
+        </div>
         {# ------- CASES A COCHER ------#}
-    <div class="abox a2">
-        <div class="blist">
-            {{ form_widget(form.organiser) }}
+        <div class="abox a2">
+            <div class="blist">
+                {{ form_widget(form.organiser) }}
                 {{ form_label(form.organiser," Sorties dont je suis l\'organisateur/trice",{'label_attr': {'class': 'control-label'}}) }}
-
-        </div>
-        <div class="blist">
-            {{ form_widget(form.isAEteInscrit) }}
-                {{ form_label(form.isAEteInscrit,"Sorties  auxquelles je suis inscrit/e",{'label_attr': {'class': 'control-label'}}) }}
-
-        </div>
-        <div class="blist">
-            {{ form_widget(form.isNotAEteInscrit) }}
-                {{ form_label(form.isNotAEteInscrit,"Sorties auxquelles je ne suis pas inscrit",{'label_attr': {'class': 'control-label'}}) }}
-
-        </div>
-        <div class="blist">
-            {{ form_widget(form.archived) }}
-                {{ form_label(form.archived,"Sorties passées",{'label_attr': {'class': 'control-label'}}) }}
-
-         </div>
-    </div>
-    <div class="a3"></div>
-
-
-</div>
-
- <div class="aflex">
-    <div class="abox a7">
-
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Date de la sortie</th>
-                        <th>cloture</th>
-                        <th>inscrits/places</th>
-                        <th>Etat</th>
-                        <th>inscrit</th>
-                        <th>Organisateur</th>
-                        <th>actions</th>
-                    </tr>
-                    </thead>
-
-    </div>
-
-
-    {{ form_end(form) }}
-
-    <div class="grid-container">
-
-        <div class="grid-x grid-padding-x small-up-2 medium-up-3  align-center-middle">
-
-
-            <div class="grid-x grid-padding-x small-up-1 medium-up-2 large-up-3 ">
-
-                {% for sortie in sorties %}
-
-                    <div class="card-section cell ">
-
-                        <div class="card-section cell-block">
-                            <tr>
-                                <td> <a href="{{ path('sortie_index', {'id': sortie.id }) }}"><h4>{{ sortie.nom }}</h4></a></td>
-                                <td><p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</p></td>
-                                <td><p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</p></td>
-                                <td><p>nombre inscrit/{{ sortie.nbInscriptionMax }}</p></td>
-                                <td><p>{{ sortie.etat.libelle}}</p></td>
-                                <td></td>
-                                <td>{{ sortie.organisateur }}</td>
-                                <td><p class="a8"><a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">s'inscrire - </a></p>
-                                    <p class="a8"><a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a></p> </br>
-                                   <p class="a8"><a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher - </a></p>
-                                    <p class="a8"><a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a></p></br>
-                                    <p class="a8"><a href="{{ path('sortie_delete', {'id': sortie.id}) }}">Annuler la sortie</a></p>
-
-                                </td>
-                            </tr>
-                        </div>
-                    </div>
-                {% else %}<h4>Aucune sortie prévue</h4>
-                {% endfor %}
-                </table>
             </div>
+            <div class="blist">
+                {{ form_widget(form.isAEteInscrit) }}
+                {{ form_label(form.isAEteInscrit,"Sorties  auxquelles je suis inscrit/e",{'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="blist">
+                {{ form_widget(form.isNotAEteInscrit) }}
+                {{ form_label(form.isNotAEteInscrit,"Sorties auxquelles je ne suis pas inscrit",{'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="blist">
+                {{ form_widget(form.archived) }}
+                {{ form_label(form.archived,"Sorties passées",{'label_attr': {'class': 'control-label'}}) }}
+            </div>
+        </div>
+        <div class="a3"></div>
+    </div>
+    <div class="aflex">
+        <div class="abox a7">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date de la sortie</th>
+                    <th>cloture</th>
+                    <th>inscrits/places</th>
+                    <th>Etat</th>
+                    <th>inscrit</th>
+                    <th>Organisateur</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+        </div>
 
+        {{ form_end(form) }}
+        <div class="grid-container">
+            <div class="grid-x grid-padding-x small-up-2 medium-up-3  align-center-middle">
+                <div class="grid-x grid-padding-x small-up-1 medium-up-2 large-up-3 ">
+                    {% for sortie in sorties %}
+                        <div class="card-section cell ">
+                            <div class="card-section cell-block">
+                                <tr>
+                                    <td> <a href="{{ path('sortie_index', {'id': sortie.id }) }}"><h4>{{ sortie.nom }}</h4></a></td>
+                                    <td><p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</p></td>
+                                    <td><p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</p></td>
+                                    <td><p>{{ sortie.compteur }}/{{ sortie.nbInscriptionMax }}</p></td>
+                                    <td><p>{{ sortie.etat.libelle}}</p></td>
+                                    <td></td>
+                                    <td>{{ sortie.organisateur }}</td>
+                                    <td><p class="a8"><a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">s'inscrire - </a></p>
+                                        <p class="a8"><a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a></p> </br>
+                                        <p class="a8"><a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher - </a></p>
+                                        <p class="a8"><a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a></p></br>
+                                        <p class="a8"><a href="{{ path('sortie_delete', {'id': sortie.id}) }}">Annuler la sortie</a></p>
+                                    </td>
+                                </tr>
+                            </div>
+                        </div>
+                    {% else %}<h4>Aucune sortie prévue</h4>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-
- </div>
-
     <div class="">
         <button class="btn"><a href="{{ path('sortie_new') }}">Créer une sortie</a> </button>
     </div>
