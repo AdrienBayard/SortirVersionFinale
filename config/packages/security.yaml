@@ -42,7 +42,7 @@ security:
     # Note: Only the *first* access control that matches will be used
 
     role_hierarchy:
-        ROLE_MODERATEUR: ROLE USER
+        ROLE_MODERATEUR: ROLE_USER
         ROLE_ADMIN: ROLE_MODERATEUR
 
     access_control:
