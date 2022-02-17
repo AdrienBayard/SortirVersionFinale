@@ -306,15 +306,21 @@ dump($this->getUser()->getUserIdentifier());
 
         }
 
-
-
-
-
     }
 
     #[Route('/{id}/annuler', name:'sortie_annuler', methods:['GET', 'POST'] )]
-    public function annuler(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function annuler(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, $id): Response
     {
+        // permet de récuperer le pseudo de l'organisateur dans la sortie
+        $organisateur = $entityManager->getRepository(Sortie::class)->find($id);
+        $organisateurRecupere=$organisateur->getOrganisateur();
+        $sorties = $sortie->getAEteInscrit();
+
+        // permet de récuperer le pseudo de la personne identifiée sur la page
+        $editeur=$this->getUser()->getUserIdentifier();
+
+        if( $editeur == $organisateurRecupere)
+        {
 
         $form = $this->createForm(AnnulerSortieType::class, $sortie);
         $form->handleRequest($request);
@@ -336,6 +342,12 @@ dump($this->getUser()->getUserIdentifier());
             'form' => $form,
         ]);
     }
+        else{
+        $this->addFlash('warning', "Vous n'êtes pas l'organisateur de cet évènement!");
+        return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
+        ]);
+        }
 
 
+    }
 }

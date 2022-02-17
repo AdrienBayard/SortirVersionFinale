@@ -82,6 +82,7 @@
         </div>
         <div class="column">
             <label class="label">Mot de passe :</label>
+
         </div>
 
 
@@ -89,6 +90,8 @@
 
             <div class="control has-icons-left has-icons-right">
                 <input class="input form-control" type="password" name="password" id="inputPassword"  placeholder="Mot de passe" autocomplete="current-password" required>
+                <p>            <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
+                </p>
                 <span class="icon is-small is-left">
       <i class="fas fa-lock"></i>
     </span>
@@ -129,6 +132,7 @@
                     <button class="btn btn-lg btn-primary btn-login" type="submit">
                         Se connecter
                     </button>
+
 
             </div>
         </div>
