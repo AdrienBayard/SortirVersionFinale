@@ -24,10 +24,11 @@
                 {#  <li><a href="{{ path('ville_index') }}">Villes</a></li>
                     <li><a href="{{ path('site_in dex') }}">Sites</a></li>#}
             {% endif %}
+
             <li><a href="{{ path('sortie_index') }}">Accueil</a></li>
-
+            {% if app.user %}
             <li><a href="{{ path('user_edit', {'id': app.user.id}) }}">Mon Profil</a></li>
-
+            {% endif %}
 
             {% if not app.user %}
                 <li><a href="{{ path('app_login') }}">Se connecter</a></li>

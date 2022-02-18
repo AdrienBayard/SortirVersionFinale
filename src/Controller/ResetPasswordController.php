@@ -44,7 +44,7 @@ class ResetPasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processSendingPasswordResetEmail(
-                $form->get('password')->getData(),
+                $form->get('mail')->getData(),
                 $mailer
             );
         }
@@ -121,7 +121,7 @@ class ResetPasswordController extends AbstractController
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('reset_password/reset.html.twig', [
@@ -132,7 +132,7 @@ class ResetPasswordController extends AbstractController
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
-            'password' => $emailFormData,
+            'mail' => $emailFormData,
         ]);
 
         // Do not reveal whether a user account was found or not.
@@ -156,9 +156,9 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('admin@eni.fr', 'admin'))
-            ->to($user->getPassword())
-            ->subject('Your password reset request')
+            ->from(new Address('admin@sortir.fr', 'Admin sortir.fr'))
+            ->to($user->getMail())
+            ->subject('Votre demande de réinitialisation de mot de passe')
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,

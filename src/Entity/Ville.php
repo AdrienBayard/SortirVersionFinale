@@ -19,15 +19,7 @@ class Ville
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $nom;
 
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    /**
-     * @Assert\Regex(
-     *     pattern="^d{5$",
-     *     match=false,
-     *     message="Votre code postal n'est pas autorisé!"
-     * )
-     */
     private $codePostal;
 
     #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]

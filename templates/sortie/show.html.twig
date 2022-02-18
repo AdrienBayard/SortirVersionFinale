@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
 {% block title %}Sortie{% endblock %}
-
 {% block body %}
-{#     <br>
+    {#     <br>
     <h1>Sortie: {{ sortie.nom }}</h1>
     <br>
     <table class="table">
@@ -28,104 +29,83 @@
                 <th>Description et infos: </th>
                 <td>{{ sortie.infosSortie }}</td>
             </tr>
-
-
         </tbody>
     </table>
-
     #}
-
-<div class="aflex">
-    <div class="abox a1">
-        <h1>Sortie: {{ sortie.nom }}</h1>
-                <div class="blist">
-                    <div class="acontent a1">
-                        <h4>Date et heure de la sortie:</h4>
-                    </div>
-                    <div class="acontent a1">
-                        <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y') : '' }} à {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('H:i') : '' }}</p>
-                    </div>
+    <h1>Sortie: {{ sortie.nom }}</h1>
+    <div class="aflex">
+        <div class="abox a1">
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Date et heure de la sortie:</h4>
                 </div>
-
-        <div class="blist">
-            <div class="acontent a1">
-                <h4>Durée:</h4>
-            </div>
-            <div class="acontent a1">
-                <p>{{ sortie.duree }} minutes</p>
-            </div>
-        </div>
-
-        <div class="blist">
-            <div class="acontent a1">
-                <h4>Date limite d'inscription:</h4>
-            </div>
-            <div class="acontent a1">
-                <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }} à {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('H:i') : '' }}</p>
-            </div>
-        </div>
-
-        <div class="blist">
-            <div class="acontent a1">
-                <h4>Nombre de places: </h4>
-            </div>
-            <div class="acontent a1">
-                <p>{{ sortie.compteur }} / {{ sortie.nbInscriptionMax }}</p>
-            </div>
-        </div>
-
-        <div class="blist">
-            <div class="acontent a1">
-                <h4>Description et infos:</h4>
-            </div>
-            <div class="acontent a1">
-                <p>{{ sortie.infosSortie }}</p>
-            </div>
-        </div>
-        <div class="blist">
-            <div class="acontent a1">
-                <h4>Organisateur:</h4>
-            </div>
-            <div class="acontent a1">
-                <p>{{ sortie.organisateur}}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="a3">
-        <p class="a4"><a href="{{ path('sortie_index') }}"><button class="btn">Liste des sorties</button></a></p>
-        <p class="a4"><a href="{{ path('sortie_inscription', {'id': sortie.id}) }}"><button class="btn">S'inscrire</button></a></p>
-        <p class="a4"><a href="{{ path('sortie_desister', {'id': sortie.id}) }}"><button class="btn">Se désister</button></a></p>
-        <p class="a4"><a href="{{ path('sortie_edit', {'id': sortie.id}) }}"><button class="btn">Modifier la sortie</button></a></p>
-        <p class="a4"><a href="{{ path('sortie_delete', {'id': sortie.id}) }}"><button class="btn">Annuler la sortie</button></a></p>
-    </div>
-
-
-    <div class="abox a2 adefilement">
-        <h1>Listes des participants:</h1>
-        {% for chaqueUser in sorties %}
-            <a href="{{ path('user_show',{"id": chaqueUser.id}) }}">
-                <div class="alist">
-                    <div class="imgBx">
-                     <img src="{{ asset('upload/images/users/'~chaqueUser.photo) }}">
-                    </div>
-                <div class="acontent">
-                    <h4>{{ chaqueUser.pseudo }}</h4>
-                    <p>{{ chaqueUser.nom }} {{ chaqueUser.prenom }}</p>
-                 </div>
+                <div class="acontent a1">
+                    <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y') : '' }} à {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('H:i') : '' }}</p>
                 </div>
-            </a>
-        {% endfor %}
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Durée:</h4>
+                </div>
+                <div class="acontent a1">
+                    <p>{{ sortie.duree }} minutes</p>
+                </div>
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Date limite d'inscription:</h4>
+                </div>
+                <div class="acontent a1">
+                    <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }} à {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('H:i') : '' }}</p>
+                </div>
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Nombre de places: </h4>
+                </div>
+                <div class="acontent a1">
+                    <p>{{ sortie.compteur }} / {{ sortie.nbInscriptionMax }}</p>
+                </div>
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Description et infos:</h4>
+                </div>
+                <div class="acontent a1">
+                    <p>{{ sortie.infosSortie }}</p>
+                </div>
+            </div>
+            <div class="blist">
+                <div class="acontent a1">
+                    <h4>Organisateur:</h4>
+                </div>
+                <div class="acontent a1">
+                    <p>{{ sortie.organisateur}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="a3">
+            <p class="a4"><a href="{{ path('sortie_index') }}"><button class="btn">Liste des sorties</button></a></p>
+            <p class="a4"><a href="{{ path('sortie_inscription', {'id': sortie.id}) }}"><button class="btn">S'inscrire</button></a></p>
+            <p class="a4"><a href="{{ path('sortie_desister', {'id': sortie.id}) }}"><button class="btn">Se désister</button></a></p>
+            <p class="a4"><a href="{{ path('sortie_edit', {'id': sortie.id}) }}"><button class="btn">Modifier la sortie</button></a></p>
+            <p class="a4"><a href="{{ path('sortie_annuler', {'id': sortie.id}) }}"><button class="btn">Annuler la sortie</button></a></p>
+        </div>
+        <div class="abox a2 adefilement">
+            <h1>Listes des participants:</h1>
+            {% for chaqueUser in sorties %}
+                <a href="{{ path('user_show',{"id": chaqueUser.id}) }}">
+                    <div class="alist">
+                        <div class="imgBx">
+                            <img src="{{ asset('upload/images/users/'~chaqueUser.photo) }}">
+                        </div>
+                        <div class="acontent">
+                            <h4>{{ chaqueUser.pseudo }}</h4>
+                            <p>{{ chaqueUser.nom }} {{ chaqueUser.prenom }}</p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
     </div>
-</div>
-
-
-    <br>
-    <br>
-    <div>
-        <p>@Adrien TODO: DELETE exemple auto-généré, à gérer plus tard @Adrien</p>
-        <p>{{ include('sortie/_delete_form.html.twig') }}</p>
-    </div>
-
-
 {% endblock %}

@@ -175,7 +175,7 @@ dump($this->getUser()->getUserIdentifier());
             ]);
         }
         else{
-            $this->addFlash('warning', "Vous n'êtes pas l'organisateur de cet évènement!");
+            $this->addFlash('warning', "   Vous n'êtes pas l'organisateur de cet évènement!");
             return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
             ]);
         }
@@ -214,13 +214,13 @@ dump($this->getUser()->getUserIdentifier());
         //gestion de l'inscription et désinscription
         if ($sortie->getAEteInscrit()->contains($this->getUser())){
             $sorties = $sortie->getAEteInscrit();
-            $this->addFlash('warning', "Vous êtes déjà inscrit à cet évènement!");
+            $this->addFlash('warning', "   Vous êtes déjà inscrit à cet évènement!");
             return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
             ]);
 
         }else if ($sortie->getAEteInscrit()->count()>=$sortie->getNbInscriptionMax() || $sortie->getDateLimiteInscription() < $dateDuJour) {
             $sorties = $sortie->getAEteInscrit();
-            $this->addFlash('warning', "le nombre de paticipant maximum est depassé ou la date limite d'inscription");
+            $this->addFlash('warning', "   Le nombre de paticipants maximum ou la date limite d'inscription est depassé ");
             return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
             ]);
         } else
@@ -250,7 +250,7 @@ dump($this->getUser()->getUserIdentifier());
 
             $entityManager->persist($sortie);
             $entityManager->flush();
-            $this->addFlash('success', 'L\'inscription a été faite !');
+            $this->addFlash('success', '   L\'inscription a été faite !');
 
 /*main
             $entityManager->persist($sortie);
@@ -292,7 +292,7 @@ dump($this->getUser()->getUserIdentifier());
 
             $em->persist($sortie);
             $em->flush();
-            $this->addFlash('success', 'Tu as été désinscrit !');
+            $this->addFlash('success', '   Tu as été désinscrit !');
             //return $this->render('sortie/show.html.twig',['id' => $id, 'sortie' => $sortieRepository->find($id)]);
             return $this->redirectToRoute('sortie_show', ['id'=>$sortie->getId()]);
 
@@ -300,21 +300,27 @@ dump($this->getUser()->getUserIdentifier());
 
         }else{
             $sorties = $sortie->getAEteInscrit();
-            $this->addFlash('warning', "Vous n'êtes pas inscrit à cet évènement!");
+            $this->addFlash('warning', "   Vous n'êtes pas inscrit à cet évènement!");
             return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
             ]);
 
         }
 
-
-
-
-
     }
 
     #[Route('/{id}/annuler', name:'sortie_annuler', methods:['GET', 'POST'] )]
-    public function annuler(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function annuler(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, $id): Response
     {
+        // permet de récuperer le pseudo de l'organisateur dans la sortie
+        $organisateur = $entityManager->getRepository(Sortie::class)->find($id);
+        $organisateurRecupere=$organisateur->getOrganisateur();
+        $sorties = $sortie->getAEteInscrit();
+
+        // permet de récuperer le pseudo de la personne identifiée sur la page
+        $editeur=$this->getUser()->getUserIdentifier();
+
+        if( $editeur == $organisateurRecupere)
+        {
 
         $form = $this->createForm(AnnulerSortieType::class, $sortie);
         $form->handleRequest($request);
@@ -336,6 +342,12 @@ dump($this->getUser()->getUserIdentifier());
             'form' => $form,
         ]);
     }
+        else{
+        $this->addFlash('warning', "   Vous n'êtes pas l'organisateur de cet évènement!");
+        return $this->render('sortie/show.html.twig', ['sortie' => $sortie, 'sorties' => $sorties
+        ]);
+        }
 
 
+    }
 }

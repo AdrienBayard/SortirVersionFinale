@@ -50,6 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $prenom;
 
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $telephone;
 
