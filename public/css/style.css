@@ -1,4 +1,3 @@
-
 nav{
     display: flex;
     justify-content: space-between;
@@ -7,18 +6,17 @@ nav{
 .pseudoAccueil{
     text-align: center;
 }
-
-h1 {
+h1{
     text-align: center;
+    font-size: 25px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: #FCFF4A;
 }
-
 .monProfil {
     text-align: center;
     height: 50px;
     line-height: 50px;
-
 }
-
 header {
     color: white;
 }
@@ -26,57 +24,42 @@ li {
     float: left;
     list-style-type: none;
 }
-
 li a {
     display: block;
-    color: white;
+    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
-
 li a:hover {
-    background-color: rgba(0,0,0,0.4);
+    background-color: #FCFF4A;
     border-radius:5px;
 }
-
 img.logo {
     display:block;
     width : 75px;
     height : 75px;
-
 }
-
 .buttonretouruser {
-
     text-align: center;
-
 }
-
 .container {
     height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-
 }
-
-
 .btn {
     width: 100px;
     height: 45px;
     left: 32px;
     top: 911px;
-
     background: #FCFF4A;
     border: 1px solid #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
-
     margin-right: 25px;
 }
-
 footer {
     color: #F5F5F5;
     background-color: black;
@@ -85,9 +68,7 @@ footer {
     text-wrap: normal;
     position: fixed;
     bottom: 0;
-
 }
-
 /*----------CSS ADRIEN--------------*/
 textAreaFix{
     resize: both;
@@ -96,23 +77,18 @@ textAreaFix{
     max-width: 600px;
     max-height: 300px;
 }
-
 li{
     color: red;
 }
-
 .flash{
     color: red;
     font-weight: 700;
 }
-
 .adefilement{
     height: 500px;
     width: 150px;
     overflow-y: auto;
-    overflow-x: hidden;
 }
-
 .a1{
     flex: 3 1 0;
 }
@@ -127,12 +103,10 @@ li{
     justify-content: center;
     align-items: center;
     padding-top: 20px;
-
 }
 .a5 {
     max-width: 450px;
 }
-
 .a6{
     flex: 5 1 0;
     justify-content: center;
@@ -145,19 +119,16 @@ li{
     font-size: 12px;
     display: inline;
 }
-
 .aflex{
     display: flex;
     margin: 20px;
 }
-
 .abox{
     margin: 0 auto;
     position: relative;
     min-width: 250px;
     min-height: 300px;
-    max-height: 500px;
-
+    max-height: 600px;
     background: rgba(255,255,255,0.1);
     box-shadow: 0 25px 45px rgba(0,0,0,0.1);
     border-right: 1px solid rgba(255, 255,255,0.2);
@@ -167,12 +138,10 @@ li{
     z-index: 10;
     padding: 20px;
 }
-
 .abox h1{
     color: #0f172a;
     margin-bottom: 20px;
 }
-
 .abox .alist,
 .abox .blist
 {
@@ -185,7 +154,6 @@ li{
     cursor: pointer;
     transition: 0.5s;
 }
-
 .abox .alist:hover
 {
     background: #fff;
@@ -193,7 +161,6 @@ li{
     transform: scale(1.15) translatex(30px) translateY(-15px);
     z-index: 1000;
 }
-
 .abox .alist .imgBx {
     position: relative;
     width: 60px;
@@ -211,7 +178,6 @@ li{
     height: 100%;
     object-fit: cover;
 }
-
 .abox .alist .acontent
 {
     display: flex;
@@ -219,33 +185,134 @@ li{
     justify-content: center;
     color: #288775;
 }
-
 .abox .alist .acontent h4,
 .abox .blist .acontent h4
-
 {
     line-height: 1.2em;
     font-weight: 600;
     transition: 0.5s;
 }
-
 .abox .alist .acontent p,
 .abox .blist .acontent p
-
 {
     line-height: 0.75em;
     transition: 0.5s;
     margin-left:30px;
-
 }
-
 .abox .alist:hover .acontent h4,
 .abox .alist:hover .acontent p
 {
     color: #333;
 }
-
 table {
     width: 100%;
 }
-/*RESPONSIVE*/
+.btnAlignes {
+    display: inline-block;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+.btnAlignes a:visited{
+    text-decoration: none;
+    color:black;
+}
+.btn a:visited{
+    text-decoration: none;
+    color:black;
+}
+.btn {
+    width: 100px;
+    height: 45px;
+    left: 32px;
+    top: 911px;
+    background: #FCFF4A;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    margin-right: 25px;
+    margin-left: 20px;
+}
+.btnVert {
+    width: 100px;
+    height: 45px;
+    left: 32px;
+    top: 911px;
+    background: #83eac5;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    margin-right: 25px;
+    margin-left: 20px;
+}
+.btnVert a:visited{
+    text-decoration: none;
+    color:black;
+}
+.btnAnnuler{
+    width: 100px;
+    height: 45px;
+    left: 32px;
+    top: 911px;
+    background: #FCFF4A;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+.btnAnnuler a:hover a:visited, a:active {
+    background: no-repeat;
+    text-decoration: none;
+    color: #e0e0e0;
+}
+.btnRetour{
+    width: 100px;
+    height: 45px;
+    left: 32px;
+    top: 911px;
+    background: #FCFF4A;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+.btnRetour a:hover a:visited, a:active {
+    background: no-repeat;
+    text-decoration: none;
+    color: #e0e0e0;
+}
+.btnSupp {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100px;
+    height: 45px;
+    left: 32px;
+    top: 911px;
+    background: #FCFF4A;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+.btnSupprimer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 25px;
+}
+.colonneGauche{
+    line-height: 35px;
+}
+.colonneDroite{
+    line-height: 30px;
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.containerFormulaire {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 40px;
+    padding: 25px;
+}

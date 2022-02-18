@@ -112,7 +112,7 @@
                                             <td> <a href="{{ path('sortie_show', {'id': sortie.id }) }}"><h4>{{ sortie.nom }}</h4></a></td>
                                             <td><p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</p></td>
                                             <td><p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</p></td>
-                                            <td><p>nombre inscrit/{{ sortie.nbInscriptionMax }}</p></td>
+                                            <td><p>{{ sortie.compteur }} / {{ sortie.nbInscriptionMax }}</p></td>
                                             <td><p>{{ sortie.etat.libelle}}</p></td>
                                             <td>{{ sortie.organisateur }}</td>
                                             {# <a href="{{ path('user_show', {'id': sortie.organisateur.getId }) }}"> </a> #}

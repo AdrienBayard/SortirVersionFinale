@@ -19,13 +19,6 @@ class Ville
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $nom;
 
-    /**
-     * @Assert\Regex(
-     *     pattern="^d{5$",
-     *     match=false,
-     *     message="Votre code postal n'est pas autorisé!"
-     * )
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codePostal;
 
